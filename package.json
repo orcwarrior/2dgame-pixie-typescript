@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@types/pixi.js": "^4.6.3",
-    "pixi.js": "^4.6.2"
+    "pixi.js": "^4.6.2",
+    "ts-keycode-enum": "^1.0.4"
   }
 }
