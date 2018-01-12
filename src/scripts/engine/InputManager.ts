@@ -7,6 +7,10 @@ export enum keyEvents {
 }
 export class InputManager extends PIXI.utils.EventEmitter {
 
+    private static composeEventName(eventName: string, keyName: Key | string): string {
+        return `${eventName}:${keyName}`;
+    }
+
     constructor() {
         super();
         const keyEventsNames = Object.keys(keyEvents).map(k => k.toString());
@@ -18,17 +22,14 @@ export class InputManager extends PIXI.utils.EventEmitter {
 
         window.addEventListener(eventName.toString(), (kbEvent: KeyboardEvent | any) => {
             let keyName = Key[kbEvent.keyCode]; // DK: Using ts-keycode-enum since keyvalues can differ in different browsers
-            let newEventName = this.composeEventName(eventName, keyName);
+            let newEventName = InputManager.composeEventName(eventName, keyName);
             
             console.log('InpMgr: emitting: ' + newEventName);
             this.emit(newEventName, kbEvent);
         });
     }
     public addKeyEventListener(keyEvent: keyEvents | string, keyName: Key, fn: Function, context?: any) {
-        this.addListener(this.composeEventName(keyEvent.toString(), keyName), fn, context);
+        this.addListener(InputManager.composeEventName(keyEvent.toString(), keyName), fn, context);
 
-    }
-    private composeEventName(eventName: string, keyName: Key | string): string {
-        return `${eventName}:${keyName}`;
     }
 }
