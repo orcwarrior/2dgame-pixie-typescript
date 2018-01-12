@@ -8,6 +8,11 @@ export enum keyEvents {
 export class InputManager extends PIXI.utils.EventEmitter {
 
     private static composeEventName(eventName: string, keyName: Key | string): string {
+        if (typeof keyName === 'number') {
+            // swap number -> keyname (occurs when called by Key.KeyName)
+            keyName = Key[keyName];
+        }
+        console.log(keyName);
         return `${eventName}:${keyName}`;
     }
 
