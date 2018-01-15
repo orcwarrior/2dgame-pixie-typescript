@@ -1,10 +1,13 @@
 import * as PIXI from 'pixi.js';
 import {InputManager} from './InputManager';
 import {Updateable} from './interfaces/Updateable';
-import {moveableObjectFactory} from '../factories/MoveableObjectFactory';
+import {moveableFactory} from '../factories/MoveableFactory';
 import {Key} from 'ts-keycode-enum';
+import {Renderable} from './interfaces/Renderable';
+import {playerFactory} from '../factories/PlayerFactory';
+import DisplayObject = PIXI.DisplayObject;
 
-let goombaUrl = require('file-loader!../../res/sprites/goomba.png');
+let goombaRes = require('file-loader!res/sprites/goomba.png');
 
 export class GameManager {
     private gameWrapper: HTMLElement | null;
@@ -14,12 +17,15 @@ export class GameManager {
     private inputMgr: InputManager;
     // Factories:
     private moveableObjsFactory: Function;
-    // Objects:
-    private objects: PIXI.Container;
+    private playerFactory: Function;
+    // Objects Collections/Containers:
+    private rootContainer: PIXI.Container;
     private updateableObjects: Array<Updateable> = [];
+    private renderableObjects: Array<Renderable> = [];
+    private player: object;
 
     constructor(wrapperId: string) {
-        let app = this.renderer = PIXI.autoDetectRenderer({width: 800, height: 600});
+        let app = this.renderer = PIXI.autoDetectRenderer({width: 800, height: 600, clearBeforeRender: false});
         // this.objects = new PIXI.Container();
         this.inputMgr = new InputManager();
         let updateTicker = this.ticker = PIXI.ticker.shared;
@@ -29,43 +35,42 @@ export class GameManager {
         if (this.gameWrapper) {
             this.gameWrapper.appendChild(this.renderer.view);
         }
-        this.moveableObjsFactory = moveableObjectFactory(this);
-        this.objects = new PIXI.Container();
+        this.moveableObjsFactory = moveableFactory(this);
+        this.playerFactory = playerFactory(this);
+        this.rootContainer = new PIXI.Container();
+        this.rootContainer.name = 'PIXI-ROOT-CONTAINER';
 
+        this.player = this.playerFactory();
 
-
-        const goombaSprite = PIXI.Sprite.fromImage(goombaUrl);
-        goombaSprite.anchor.set(0.5);
-        goombaSprite.x = app.screen.width / 2;
-        goombaSprite.y = app.screen.height / 2;
-        goombaSprite.width = 40;
-        goombaSprite.height = 40;
-
-        const goomba = this.moveableObjsFactory(goombaSprite);
-        this.inputMgr.addKeyEventListener('keydown', Key.UpArrow, () => goomba.my = -1);
-        this.inputMgr.addKeyEventListener('keydown', Key.DownArrow, () => goomba.my = 1);
-        this.inputMgr.addKeyEventListener('keydown', Key.LeftArrow, () => goomba.mx = -1);
-        this.inputMgr.addKeyEventListener('keydown', Key.RightArrow, () => goomba.mx = 1);
-        this.inputMgr.addKeyEventListener('keyup', Key.UpArrow, () => goomba.my = 0);
-        this.inputMgr.addKeyEventListener('keyup', Key.DownArrow, () => goomba.my = 0);
-        this.inputMgr.addKeyEventListener('keyup', Key.LeftArrow, () => goomba.mx = 0);
-        this.inputMgr.addKeyEventListener('keyup', Key.RightArrow, () => goomba.mx = 0);
 
     }
+
     public getInputManager() {
         return this.inputMgr;
     }
+    public getRootContainer() {
+        return this.rootContainer;
+    }
+    public getMoveableFactory() {
+        return this.moveableObjsFactory;
+    }
 
     private update(delta: number) {
+        // this.renderer.clear('#000000');
         this.updateableObjects.forEach((mob) => mob.update(delta));
-        this.renderer.render(this.objects);
+        this.renderableObjects.forEach((renderable) => renderable.render(this.renderer));
+
+        this.renderer.render(this.rootContainer);
     }
 
     public addUpdateableObject(obj: Updateable) {
         this.updateableObjects.push(obj);
     }
-    public addRenderedSprite(sprite: PIXI.Sprite) {
-        this.objects.addChild(sprite);
+    public addRenderableObject(renderable: Renderable) {
+        this.renderableObjects.push(renderable);
+    }
+    public addDisplayedObject(obj: DisplayObject) {
+        this.rootContainer.addChild(obj);
     }
 
 }
