@@ -41,7 +41,6 @@ export default async function generateAnimsMapFromSpritesheet(spritesheetJson: a
                     aniSprite.setTransform(0, 0);
                     aniSprite.anchor.set(0.5);
                     aniSprite.animationSpeed = 0.1;
-                    aniSprite.onFrameChange = (curFrame) => console.log('Frame changed: ', curFrame);
 
                     resultingAnimations[aniName] = aniSprite;
                 });

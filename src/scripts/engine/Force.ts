@@ -17,38 +17,38 @@ export enum Direction {
 export class Force extends PIXI.utils.EventEmitter {
 
     private durationMS: number;
-    private _initialForce: number;
+    private force: number;
     private easeFunction: Function;
     private _initTimestamp: Date;
     private directionVector: PIXI.Point;
 
     /* statics */
-    public static constant = function () {
-        return 1;
-    };
-    public static easeLinear = function (p: number) {
-        return p;
-    };
+    public static constant = () => 1;
+    public static easeLinear = (p: number) => p;
+    public static decelerateLinear = (p: number) => 1 - p;
 
-    constructor(dir: Direction | PIXI.Point, initialForce: number, durationMS: number,
+
+    constructor(dir: Direction | PIXI.Point, force: number, durationMS: number,
                 easeFunction: Function = Force.easeLinear) {
         super();
 
         this.directionVector = this.getDirectionVector(dir);
-        this._initialForce = initialForce;
+        this.force = force;
         this.durationMS = durationMS;
         this.easeFunction = easeFunction || Force.easeLinear;
 
         this._initTimestamp = new Date();
     }
 
-    public getCurrentVector() {
+    public update(): PIXI.Point {
         let progress = this.getForceProgress();
-        let force = this._initialForce * this.easeFunction(1 - progress);
-        let forceVector = pointMul(this.directionVector, force);
-        if (progress >= 1) { this.emit('end', progress, forceVector); }
+        let actForce = this.force * this.easeFunction(progress);
+        let forceVector = pointMul(this.directionVector, actForce);
+        if (this.forceFinished(progress, actForce)) { this.emit('end', progress, forceVector); }
         return forceVector;
-
+    }
+    private forceFinished(progress: number, force: number) {
+        return (progress >= 1 && force === 0);
     }
     private getDirectionVector(dir: Direction | PIXI.Point): PIXI.Point {
         let asDirection = (<Direction>dir);
@@ -61,6 +61,6 @@ export class Force extends PIXI.utils.EventEmitter {
     private getForceProgress(): number {
         let curTimestamp: Date = new Date();
         let diff = (curTimestamp.getTime() - this._initTimestamp.getTime());
-        return diff / this.durationMS;
+        return Math.min(1, diff / this.durationMS);
     }
 }
