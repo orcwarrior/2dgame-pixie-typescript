@@ -2,14 +2,15 @@ import * as PIXI from 'pixi.js';
 import {InputManager} from './InputManager';
 import {Updateable} from './interfaces/Updateable';
 import {moveableFactory} from '../factories/MoveableFactory';
-import {Key} from 'ts-keycode-enum';
 import {Renderable} from './interfaces/Renderable';
 import {playerFactory} from '../factories/PlayerFactory';
-import DisplayObject = PIXI.DisplayObject;
 
 let goombaRes = require('file-loader!res/sprites/goomba.png');
 
 export class GameManager {
+    // TODO: Make it proper singleton
+    public static instance: GameManager;
+
     private gameWrapper: HTMLElement | null;
     private renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
     private ticker: PIXI.ticker.Ticker;
@@ -25,6 +26,7 @@ export class GameManager {
     private player: object;
 
     constructor(wrapperId: string) {
+        GameManager.instance = this;
         let app = this.renderer = PIXI.autoDetectRenderer({width: 800, height: 600, clearBeforeRender: false});
         // this.objects = new PIXI.Container();
         this.inputMgr = new InputManager();
@@ -37,12 +39,11 @@ export class GameManager {
         }
         this.moveableObjsFactory = moveableFactory(this);
         this.playerFactory = playerFactory(this);
+
         this.rootContainer = new PIXI.Container();
         this.rootContainer.name = 'PIXI-ROOT-CONTAINER';
 
         this.player = this.playerFactory();
-
-
     }
 
     public getInputManager() {
@@ -68,9 +69,6 @@ export class GameManager {
     }
     public addRenderableObject(renderable: Renderable) {
         this.renderableObjects.push(renderable);
-    }
-    public addDisplayedObject(obj: DisplayObject) {
-        this.rootContainer.addChild(obj);
     }
 
 }
