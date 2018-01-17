@@ -1,10 +1,10 @@
 import {Updateable} from './interfaces/Updateable';
 import {Force} from './Force';
-import {pointsAdd} from './utils/utils';
+import {Vector} from './utils/Vector';
 
 export class ForcesContainer implements Updateable {
-    private forcesContainer: any;
-    private forcesVector: PIXI.Point;
+    private forcesContainer: {[id: string]: Force};
+    private forcesVector: Vector;
 
     constructor() {
         this.forcesContainer = {};
@@ -18,12 +18,15 @@ export class ForcesContainer implements Updateable {
             delete this.forcesContainer[id];
         });
     }
+    public getForceVelocity(forceId: string): Vector {
+        return (this.forcesContainer[forceId] && this.forcesContainer[forceId].update());
+    }
 
-    public update(): PIXI.Point {
+    public update(): Vector {
         let fV = this.forcesVector = Object.keys(this.forcesContainer)
-            .reduce((vec: PIXI.Point, forceId) => {
-                return pointsAdd(vec, this.forcesContainer[forceId].update());
-            }, new PIXI.Point(0, 0));
-        return new PIXI.Point(fV.x, fV.y);
+            .reduce((vec: Vector, forceId) => {
+                return vec.add(this.forcesContainer[forceId].update());
+            }, new Vector());
+        return new Vector(fV.x, fV.y);
     }
 }
