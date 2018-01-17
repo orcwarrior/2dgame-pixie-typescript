@@ -19,8 +19,15 @@ export class Vector {
     public sign() {
         return new Vector(Math.sign(this.x), Math.sign(this.y) );
     }
+
     public scalarMul(n: number) {
         return new Vector(this.x * n, this.y * n);
+    }
+    public getDominantValue() {
+        return Math.max(this.x, this.y);
+    }
+    public getAbsDominantValue() {
+        return Math.max(Math.abs(this.x), Math.abs(this.y));
     }
 
     public asPixiPoint(): PIXI.Point {
