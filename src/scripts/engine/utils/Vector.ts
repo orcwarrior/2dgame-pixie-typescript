@@ -1,7 +1,8 @@
 export class Vector {
     public x: number;
     public y: number;
-    constructor (x: number, y: number) {
+
+    constructor (x: number = 0, y: number = 0) {
         this.x = x;
         this.y = y;
     }
@@ -15,9 +16,13 @@ export class Vector {
     public mul(v: Vector) {
         return new Vector(this.x * v.x, this.y * v.y);
     }
-    public sign(v: Vector) {
-        return new Vector(Math.sign(this.x), Math.sign(this.y));
+    public sign() {
+        return new Vector(Math.sign(this.x), Math.sign(this.y) );
     }
+    public scalarMul(n: number) {
+        return new Vector(this.x * n, this.y * n);
+    }
+
     public asPixiPoint(): PIXI.Point {
         return new PIXI.Point(this.x, this.y);
     }
