@@ -1,10 +1,10 @@
-import {pointMul} from './utils/utils';
+import {Vector} from './utils/Vector';
 
 const ForceDir = {
-    UP: (f: number) => new PIXI.Point(0, -f),
-    RIGHT: (f: number) => new PIXI.Point(f, 0),
-    DOWN: (f: number) => new PIXI.Point(0, f),
-    LEFT: (f: number) => new PIXI.Point(-f, 0),
+    UP: (f: number) => new Vector(0, -f),
+    RIGHT: (f: number) => new Vector(f, 0),
+    DOWN: (f: number) => new Vector(0, f),
+    LEFT: (f: number) => new Vector(-f, 0),
 };
 
 export enum Direction {
@@ -20,7 +20,7 @@ export class Force extends PIXI.utils.EventEmitter {
     private force: number;
     private easeFunction: Function;
     private _initTimestamp: Date;
-    private directionVector: PIXI.Point;
+    private directionVector: Vector;
 
     /* statics */
     public static constant = () => 1;
@@ -28,7 +28,7 @@ export class Force extends PIXI.utils.EventEmitter {
     public static decelerateLinear = (p: number) => 1 - p;
 
 
-    constructor(dir: Direction | PIXI.Point, force: number, durationMS: number,
+    constructor(dir: Direction | Vector, force: number, durationMS: number,
                 easeFunction: Function = Force.easeLinear) {
         super();
 
@@ -40,22 +40,22 @@ export class Force extends PIXI.utils.EventEmitter {
         this._initTimestamp = new Date();
     }
 
-    public update(): PIXI.Point {
+    public update(): Vector {
         let progress = this.getForceProgress();
         let actForce = this.force * this.easeFunction(progress);
-        let forceVector = pointMul(this.directionVector, actForce);
+        let forceVector = this.directionVector.scalarMul(actForce);
         if (this.forceFinished(progress, actForce)) { this.emit('end', progress, forceVector); }
         return forceVector;
     }
     private forceFinished(progress: number, force: number) {
         return (progress >= 1 && force === 0);
     }
-    private getDirectionVector(dir: Direction | PIXI.Point): PIXI.Point {
+    private getDirectionVector(dir: Direction | Vector): Vector {
         let asDirection = (<Direction>dir);
         if (Direction[asDirection]) {
             return ForceDir[asDirection](1);
         } else {
-            return <PIXI.Point>dir;
+            return <Vector>dir;
         }
     }
     private getForceProgress(): number {

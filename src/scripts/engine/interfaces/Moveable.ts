@@ -1,13 +1,14 @@
 import {Updateable} from './Updateable';
 import * as _ from 'lodash';
+import {Vector} from '../utils/Vector';
 
 export class Moveable implements Updateable {
-    private moveVector: PIXI.Point;
+    private moveVector: Vector;
     private container: PIXI.Container;
 
     constructor(container: PIXI.Container) {
         this.container = container;
-        this.moveVector = new PIXI.Point(0, 0);
+        this.moveVector = new Vector();
     }
 
     public update(delta: number): void {
