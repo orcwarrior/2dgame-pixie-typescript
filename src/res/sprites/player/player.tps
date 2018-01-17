@@ -199,10 +199,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">D:/Downloads/4 directional character/idle_0.png</key>
-            <key type="filename">D:/Downloads/4 directional character/idle_1.png</key>
-            <key type="filename">D:/Downloads/4 directional character/idle_2.png</key>
-            <key type="filename">D:/Downloads/4 directional character/idle_3.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_down_0.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_down_1.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_down_2.png</key>
@@ -225,6 +221,8 @@
             <key type="filename">D:/Downloads/4 directional character/run_up_2.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_up_3.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_up_4.png</key>
+            <key type="filename">D:/Downloads/4 directional character/slide_left_0.png</key>
+            <key type="filename">D:/Downloads/4 directional character/slide_right_0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -240,10 +238,6 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>D:/Downloads/4 directional character/idle_0.png</filename>
-            <filename>D:/Downloads/4 directional character/idle_1.png</filename>
-            <filename>D:/Downloads/4 directional character/idle_2.png</filename>
-            <filename>D:/Downloads/4 directional character/idle_3.png</filename>
             <filename>D:/Downloads/4 directional character/run_down_0.png</filename>
             <filename>D:/Downloads/4 directional character/run_down_1.png</filename>
             <filename>D:/Downloads/4 directional character/run_down_2.png</filename>
@@ -266,6 +260,8 @@
             <filename>D:/Downloads/4 directional character/run_up_2.png</filename>
             <filename>D:/Downloads/4 directional character/run_up_3.png</filename>
             <filename>D:/Downloads/4 directional character/run_up_4.png</filename>
+            <filename>D:/Downloads/4 directional character/slide_left_0.png</filename>
+            <filename>D:/Downloads/4 directional character/slide_right_0.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
