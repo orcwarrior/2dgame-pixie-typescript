@@ -28,13 +28,16 @@ class Player extends GameObject {
         this.setupForcesOnInput();
         // this.addBBox();
     }
+
     public update(delta: number) {
         this.moveableComponent.update(this.playerContainer);
         this.aniComponent.update(this.moveableComponent);
     }
+
     public render(renderContext: PIXI.WebGLRenderer | PIXI.CanvasRenderer) {
         renderContext.render(this.playerContainer);
     }
+
     private addBBox() {
         let graphics = new PIXI.Graphics();
         // set a fill and line style
@@ -46,20 +49,28 @@ class Player extends GameObject {
     }
 
     private setupForcesOnInput() {
+        // TODO: Move to some component or create new Moveable for player
+        // (Bad thing it would add another level of composition (and complexity))
         const input = this.inputComponent;
         const mc = this.moveableComponent;
         input.on('moveleft', () =>
-            mc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 300))
+            mc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 300), true)
         );
         input.on('moveright', () =>
-            mc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 300))
+            mc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 300), true)
         );
-        input.on('moveleftstop', () =>
-            mc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 500, Force.decelerateLinear), true)
-        );
-        input.on('moverightstop', () =>
-            mc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 500, Force.decelerateLinear), true)
-        );
+        input.on('moveleftstop', () => {
+            let curForceVel = this.moveableComponent.getForceVelocity('mLeft');
+            let maxVel = curForceVel.getAbsDominantValue();
+            console.log('Slide time: ', 500 * (maxVel / Player.moveSpeed));
+            mc.applyForce('mLeft', new Force(curForceVel, 1, 500 * (maxVel / Player.moveSpeed), Force.decelerateLinear), true);
+        });
+        input.on('moverightstop', () => {
+            let curForceVel = this.moveableComponent.getForceVelocity('mRight');
+            let maxVel = curForceVel.getAbsDominantValue();
+            console.log('Slide time: ', 500 * (maxVel / Player.moveSpeed));
+            mc.applyForce('mRight', new Force(curForceVel, 1, 500 * (maxVel / Player.moveSpeed), Force.decelerateLinear), true);
+        });
     }
 }
 
