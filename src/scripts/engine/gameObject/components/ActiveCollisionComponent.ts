@@ -8,12 +8,11 @@ import {CollisionReport} from '../../collision/CollisionReport';
 
 export class ActiveCollisionComponent extends CollisionComponent {
     protected static edgeThickness = 1;
-    protected static minimalCollision: number = 0.5;
+    protected static minimalCollision: number = 0.05;
     protected collisionResults: CollisionResults;
 
     constructor(parentObject: GameObject, getCollisionRect: () => PIXI.Rectangle, onCollide?: (g: GameObject) => void) {
         super(parentObject, getCollisionRect, onCollide);
-
         GameManager.instance.addCollideable(this);
     }
     public update(otherColls: CollisionComponent[]): CollisionResults {
@@ -22,10 +21,13 @@ export class ActiveCollisionComponent extends CollisionComponent {
         let cRectEdges = new EdgeRectangles(cRect, ActiveCollisionComponent.edgeThickness);
 
         otherColls.forEach((coll) => {
-            let intersection = IntersectRect(cRect, coll.getCollisionRect());
+            let otherBounds = coll.getCollisionRect();
+            let intersection = IntersectRect(cRect, otherBounds);
             if (!rectangleIsEmpty(intersection)
             && (this.isCollidedPartBigEnough(cRect, intersection)
-            ||  this.isCollidedPartBigEnough(coll.getCollisionRect(), intersection))  ) {
+            ||  this.isCollidedPartBigEnough(otherBounds, intersection))  ) {
+                // TODO: Create some collision-pass-through field
+                // and ignore then results.join(collResults)
                 let collResult = cRectEdges.testIntersection(intersection);
                 let collReport = new CollisionReport(coll, collResult, cRectEdges);
                 // console.log('Collision found:', collResult);
