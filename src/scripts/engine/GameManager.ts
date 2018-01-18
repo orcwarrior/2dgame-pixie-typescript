@@ -4,6 +4,7 @@ import {Updateable} from './interfaces/Updateable';
 import {moveableFactory} from '../factories/MoveableFactory';
 import {Renderable} from './interfaces/Renderable';
 import {playerFactory} from '../factories/PlayerFactory';
+import {CollisionComponent} from './gameObjectComponents/CollisionComponent';
 
 let goombaRes = require('file-loader!res/sprites/goomba.png');
 
@@ -23,6 +24,7 @@ export class GameManager {
     private rootContainer: PIXI.Container;
     private updateableObjects: Array<Updateable> = [];
     private renderableObjects: Array<Renderable> = [];
+    private collideablesObjects: Array<CollisionComponent> = [];
     private player: object;
 
     constructor(wrapperId: string) {
@@ -71,4 +73,8 @@ export class GameManager {
         this.renderableObjects.push(renderable);
     }
 
+    public addCollideable(collisionComponent: CollisionComponent) {
+        this.collideablesObjects.push(collisionComponent);
+
+    }
 }
