@@ -6,7 +6,7 @@ export interface AnimsMap {
 
 export function IntersectRect(a: PIXI.Rectangle, b: PIXI.Rectangle): PIXI.Rectangle {
     let xStart = Math.max(a.x, b.x);
-    let yStart = Math.max(a.x, b.y);
+    let yStart = Math.max(a.y, b.y);
     let xEnd = Math.min(a.x + a.width, b.x + b.width);
     let yEnd = Math.min(a.y + a.height, b.y + b.height);
     if (xEnd >= xStart && yEnd >= yStart) {
@@ -15,4 +15,6 @@ export function IntersectRect(a: PIXI.Rectangle, b: PIXI.Rectangle): PIXI.Rectan
         return PIXI.Rectangle.EMPTY;
     }
 }
-
+export function rectangleIsEmpty(r: PIXI.Rectangle) {
+    return (r.width === 0 && r.height === 0);
+}
