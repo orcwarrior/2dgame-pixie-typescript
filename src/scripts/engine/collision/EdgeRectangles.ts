@@ -10,13 +10,19 @@ export class EdgeRectangles {
     private baseRect: PIXI.Rectangle;
     private edgeThickness: number;
 
-    public static getEdgeRect(r: PIXI.Rectangle, side: Direction, thickness: number = 1): PIXI.Rectangle {
+    public static getEdgeRect(r: PIXI.Rectangle, side: Direction,
+                              thickness: number = 2, sizePart: number = 0.4): PIXI.Rectangle {
+        // DK: Rectangle in corners could give wrong impression about collision
+        // so we skip part of width/height by sizePart parameter.
+        let skipPart = 0;
         if (side === Direction.LEFT || side === Direction.RIGHT) {
+            skipPart = r.height * sizePart / 2;
             const xStart = (side === Direction.LEFT) ? r.left : r.right - thickness;
-            return new PIXI.Rectangle(xStart, r.top, thickness, r.height);
+            return new PIXI.Rectangle(xStart, r.top + skipPart, thickness, r.height - skipPart);
         } else /* if (side === Direction.UP || side === Direction.DOWN) */ {
+            skipPart = r.width * sizePart / 2;
             const yStart = (side === Direction.UP) ? r.top : r.bottom - thickness;
-            return new PIXI.Rectangle(r.left, yStart, r.width, thickness);
+            return new PIXI.Rectangle(r.left + skipPart, yStart, r.width - skipPart, thickness);
         }
     }
 
@@ -47,5 +53,4 @@ export class EdgeRectangles {
             this.edges[dir] = {rect: EdgeRectangles.getEdgeRect(this.baseRect, dir, this.edgeThickness), dir: dir};
         });
     }
-
 }
