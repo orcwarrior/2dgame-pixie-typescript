@@ -4,6 +4,8 @@ import {Updateable} from './interfaces/Updateable';
 import {Renderable} from './interfaces/Renderable';
 import {Player} from './gameObject/player/Player';
 import {CollisionComponent} from './gameObject/components/abstract/CollisionComponent';
+import {StaticObject} from './gameObject/objects/StaticObject';
+import {GenericVisualComponent} from './gameObject/components/GenericVisualComponent';
 
 let goombaRes = require('file-loader!res/sprites/goomba.png');
 
@@ -40,6 +42,11 @@ export class GameManager {
 
 
         this.player = new Player();
+
+        const goombaSprite = PIXI.Sprite.fromImage(goombaRes);
+        goombaSprite.width = 50;
+        goombaSprite.height = 50;
+        let goomba = new StaticObject(new GenericVisualComponent({x: 600, y: 495, childs: [goombaSprite]}));
 
     }
 
