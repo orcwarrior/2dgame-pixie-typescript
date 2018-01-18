@@ -20,14 +20,14 @@ export class EdgeRectangles {
         }
     }
 
-    constructor(baseRect: PIXI.Rectangle, edgeThickness: number = 1) {
+    constructor(baseRect: PIXI.Rectangle, edgeThickness: number = 4) {
         this.baseRect = baseRect;
         this.edgeThickness = edgeThickness;
         this.edges = {};
         this.initializeEdges();
     }
 
-    public testIntersection(rect: PIXI.Rectangle, minIntersection: number = 5): CollisionResults {
+    public testIntersection(rect: PIXI.Rectangle, minIntersection: number = 6): CollisionResults {
         let res = new CollisionResults();
         this.asArray().forEach((edgeRect) => {
             let edgeIntersect = IntersectRect(edgeRect.rect, rect);
