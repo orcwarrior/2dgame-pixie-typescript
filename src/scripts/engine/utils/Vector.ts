@@ -16,7 +16,7 @@ export class Vector {
     public mul(v: Vector) {
         return new Vector(this.x * v.x, this.y * v.y);
     }
-    public sign() {
+    public signVector() {
         return new Vector(Math.sign(this.x), Math.sign(this.y) );
     }
 
