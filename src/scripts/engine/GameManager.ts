@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import {InputManager} from './InputManager';
 import {Updateable} from './interfaces/Updateable';
 import {Renderable} from './interfaces/Renderable';
-import {playerFactory} from '../factories/PlayerFactory';
+import {Player} from './gameObject/components/player/Player';
 import {CollisionComponent} from './gameObject/components/abstract/CollisionComponent';
 
 let goombaRes = require('file-loader!res/sprites/goomba.png');
@@ -16,14 +16,12 @@ export class GameManager {
     private ticker: PIXI.ticker.Ticker;
     // Managers:
     private inputMgr: InputManager;
-    // Factories:
-    private playerFactory: Function;
     // Objects Collections/Containers:
     private rootContainer: PIXI.Container;
     private updateableObjects: Array<Updateable> = [];
     private renderableObjects: Array<Renderable> = [];
     private collideablesObjects: Array<CollisionComponent> = [];
-    private player: object;
+    private player: Player;
 
     constructor(wrapperId: string) {
         GameManager.instance = this;
@@ -37,7 +35,7 @@ export class GameManager {
         if (this.gameWrapper) {
             this.gameWrapper.appendChild(this.renderer.view);
         }
-        this.playerFactory = playerFactory(this);
+        this.player = new Player();
 
         this.rootContainer = new PIXI.Container();
         this.rootContainer.name = 'PIXI-ROOT-CONTAINER';
