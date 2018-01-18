@@ -3,7 +3,6 @@ import {GameObject} from '../GameObject';
 import generateAnimsMapFromSpritesheet from '../../utils/generateAnimsMapFromSpritesheet';
 import {InputComponent} from '../components/abstract/InputComponent';
 import * as _ from 'lodash';
-import {MoveableComponent} from '../components/abstract/MoveableComponent';
 import {Vector} from '../../utils/Vector';
 
 export class PlayerAnimsComponent extends AnimsComponent {
