@@ -5,7 +5,7 @@ import {PlayerInputComponent} from '../objects/player/PlayerInputComponent';
 import {ForceMoveableComponent} from '../objects/ForceMoveableComponent';
 import {Direction, Force} from '../engine/Force';
 import {GenericVisualComponent} from '../objects/GenericVisualComponent';
-import {GenericCollisionComponent} from '../objects/GenericCollisionComponent';
+import {GenericCollisionComponent} from '../objects/ActiveCollisionComponent';
 
 let gameManager;
 
