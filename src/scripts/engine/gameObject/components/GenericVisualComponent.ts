@@ -1,5 +1,5 @@
-import {VisualComponent} from '../engine/gameObjectComponents/VisualComponent';
-import {GameManager} from '../engine/GameManager';
+import {VisualComponent} from './abstract/VisualComponent';
+import {GameManager} from '../../GameManager';
 
 export class GenericVisualComponent extends VisualComponent {
     constructor(container?: PIXI.Container, config = {x: 0, y: 0}, parentContainer?: PIXI.Container) {

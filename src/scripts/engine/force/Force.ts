@@ -1,4 +1,4 @@
-import {Vector} from './utils/Vector';
+import {Vector} from '../utils/Vector';
 import _ = require('lodash');
 
 const ForceDir = {

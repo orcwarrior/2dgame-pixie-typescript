@@ -1,11 +1,11 @@
 import {GameManager} from '../engine/GameManager';
-import {GameObject} from '../objects/GameObject';
-import {PlayerAnimsComponent} from '../objects/player/PlayerAnimsComponent';
-import {PlayerInputComponent} from '../objects/player/PlayerInputComponent';
-import {ForceMoveableComponent} from '../objects/ForceMoveableComponent';
-import {Direction, Force} from '../engine/Force';
-import {GenericVisualComponent} from '../objects/GenericVisualComponent';
-import {GenericCollisionComponent} from '../objects/ActiveCollisionComponent';
+import {GameObject} from '../engine/gameObject/GameObject';
+import {PlayerAnimsComponent} from '../engine/gameObject/components/player/PlayerAnimsComponent';
+import {PlayerInputComponent} from '../engine/gameObject/components/player/PlayerInputComponent';
+import {ForceMoveableComponent} from '../engine/gameObject/components/ForceMoveableComponent';
+import {Direction, Force} from '../engine/force/Force';
+import {GenericVisualComponent} from '../engine/gameObject/components/GenericVisualComponent';
+import {GenericCollisionComponent} from '../engine/gameObject/components/ActiveCollisionComponent';
 
 let gameManager;
 

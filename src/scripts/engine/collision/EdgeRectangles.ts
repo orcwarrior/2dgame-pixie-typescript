@@ -1,4 +1,4 @@
-import {Direction, directionEnumKeys} from '../Force';
+import {Direction, directionEnumKeys} from '../force/Force';
 import {IntersectRect} from '../utils/utils';
 import {CollisionResults} from './CollisionResults';
 

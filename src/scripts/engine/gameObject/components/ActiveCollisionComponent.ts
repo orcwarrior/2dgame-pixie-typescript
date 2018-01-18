@@ -1,10 +1,10 @@
-import {CollisionComponent} from '../engine/gameObjectComponents/CollisionComponent';
-import {GameManager} from '../engine/GameManager';
-import {GameObject} from './GameObject';
-import {IntersectRect} from '../engine/utils/utils';
-import {CollisionResults} from '../engine/collision/CollisionResults';
-import {EdgeRectangles} from '../engine/collision/EdgeRectangles';
-import {CollisionReport} from '../engine/collision/CollisionReport';
+import {CollisionComponent} from './abstract/CollisionComponent';
+import {GameManager} from '../../GameManager';
+import {GameObject} from '../GameObject';
+import {IntersectRect} from '../../utils/utils';
+import {CollisionResults} from '../../collision/CollisionResults';
+import {EdgeRectangles} from '../../collision/EdgeRectangles';
+import {CollisionReport} from '../../collision/CollisionReport';
 
 export class GenericCollisionComponent extends CollisionComponent {
     protected static edgeThickness = 1;

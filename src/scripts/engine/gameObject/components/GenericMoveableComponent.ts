@@ -1,7 +1,7 @@
 
-import {MoveableComponent} from '../engine/gameObjectComponents/MoveableComponent';
-import {GameObject} from './GameObject';
-import {Vector} from '../engine/utils/Vector';
+import {MoveableComponent} from './abstract/MoveableComponent';
+import {GameObject} from '../GameObject';
+import {Vector} from '../../utils/Vector';
 
 export class GenericMoveableComponent extends MoveableComponent {
 

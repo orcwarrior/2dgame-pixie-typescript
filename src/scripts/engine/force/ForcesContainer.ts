@@ -1,6 +1,6 @@
-import {Updateable} from './interfaces/Updateable';
+import {Updateable} from '../interfaces/Updateable';
 import {Force} from './Force';
-import {Vector} from './utils/Vector';
+import {Vector} from '../utils/Vector';
 
 export class ForcesContainer implements Updateable {
     private forcesContainer: {[id: string]: Force};

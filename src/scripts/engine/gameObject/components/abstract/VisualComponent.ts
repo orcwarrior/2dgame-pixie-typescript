@@ -1,4 +1,4 @@
-import {Renderable} from '../interfaces/Renderable';
+import {Renderable} from '../../../interfaces/Renderable';
 
 export abstract class VisualComponent implements Renderable {
     protected container: PIXI.Container;

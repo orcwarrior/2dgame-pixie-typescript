@@ -1,8 +1,8 @@
 
-import {GameObject} from '../../objects/GameObject';
+import {GameObject} from '../../GameObject';
 import EventEmitter = PIXI.utils.EventEmitter;
-import {InputManager} from '../InputManager';
-import {GameManager} from '../GameManager';
+import {InputManager} from '../../../InputManager';
+import {GameManager} from '../../../GameManager';
 
 export abstract class InputComponent extends EventEmitter {
     protected inputMgr: InputManager;

@@ -1,6 +1,6 @@
 import EventEmitter = PIXI.utils.EventEmitter;
-import {GameObject} from '../../objects/GameObject';
-import {Vector} from '../utils/Vector';
+import {GameObject} from '../../GameObject';
+import {Vector} from '../../../utils/Vector';
 
 export abstract class MoveableComponent extends EventEmitter {
     protected velocity: Vector;

@@ -1,4 +1,4 @@
-import {CollisionComponent} from '../gameObjectComponents/CollisionComponent';
+import {CollisionComponent} from '../gameObject/components/abstract/CollisionComponent';
 import {CollisionResults} from './CollisionResults';
 import {EdgeRectangles} from './EdgeRectangles';
 

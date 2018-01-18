@@ -1,6 +1,6 @@
 import EventEmitter = PIXI.utils.EventEmitter;
-import {GameObject} from '../../objects/GameObject';
-import {AnimsMap} from '../utils/utils';
+import {GameObject} from '../../GameObject';
+import {AnimsMap} from '../../../utils/utils';
 import AnimatedSprite = PIXI.extras.AnimatedSprite;
 import {MoveableComponent} from './MoveableComponent';
 

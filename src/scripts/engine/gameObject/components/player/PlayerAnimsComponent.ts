@@ -1,9 +1,9 @@
-import {AnimsComponent, AniType} from '../../engine/gameObjectComponents/AnimsComponent';
-import {GameObject} from '../GameObject';
-import generateAnimsMapFromSpritesheet from '../../engine/utils/generateAnimsMapFromSpritesheet';
-import {InputComponent} from '../../engine/gameObjectComponents/InputComponent';
+import {AnimsComponent, AniType} from '../abstract/AnimsComponent';
+import {GameObject} from '../../GameObject';
+import generateAnimsMapFromSpritesheet from '../../../utils/generateAnimsMapFromSpritesheet';
+import {InputComponent} from '../abstract/InputComponent';
 import * as _ from 'lodash';
-import {MoveableComponent} from '../../engine/gameObjectComponents/MoveableComponent';
+import {MoveableComponent} from '../abstract/MoveableComponent';
 
 export class PlayerAnimsComponent extends AnimsComponent {
     private aniSetupReady: boolean;

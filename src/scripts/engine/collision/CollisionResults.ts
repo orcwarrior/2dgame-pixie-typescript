@@ -1,5 +1,5 @@
 import {Vector} from '../utils/Vector';
-import {Direction, directionEnumKeys} from '../Force';
+import {Direction, directionEnumKeys} from '../force/Force';
 
 // NOTE: CollisionVector is the way to note
 // about collision (or no collision) in one of four directions

@@ -1,4 +1,4 @@
-import {GameObject} from '../../objects/GameObject';
+import {GameObject} from '../../GameObject';
 import EventEmitter = PIXI.utils.EventEmitter;
 
 export abstract class CollisionComponent extends EventEmitter {

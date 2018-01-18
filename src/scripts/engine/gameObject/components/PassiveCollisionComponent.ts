@@ -1,6 +1,6 @@
-import {CollisionComponent} from '../engine/gameObjectComponents/CollisionComponent';
-import {GameObject} from './GameObject';
-import {GameManager} from '../engine/GameManager';
+import {CollisionComponent} from './abstract/CollisionComponent';
+import {GameObject} from '../GameObject';
+import {GameManager} from '../../GameManager';
 
 export class PassiveCollisionComponent extends CollisionComponent {
 
