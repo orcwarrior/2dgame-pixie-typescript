@@ -8,15 +8,15 @@ import {CollisionReport} from '../../collision/CollisionReport';
 
 export class GenericCollisionComponent extends CollisionComponent {
     protected static edgeThickness = 1;
+    protected collisionResults: CollisionResults;
 
     constructor(parentObject: GameObject, getCollisionRect: () => PIXI.Rectangle, onCollide?: (g: GameObject) => void) {
         super(parentObject, getCollisionRect, onCollide);
 
         GameManager.instance.addCollideable(this);
     }
-
     public update(otherColls: CollisionComponent[]): CollisionResults {
-        let results = new CollisionResults();
+        let results = this.collisionResults = new CollisionResults();
         let cRect: PIXI.Rectangle = this.getCollisionRect();
         let cRectEdges = new EdgeRectangles(cRect, GenericCollisionComponent.edgeThickness);
 
@@ -32,4 +32,5 @@ export class GenericCollisionComponent extends CollisionComponent {
         });
         return results;
     }
+    public getCollisionResults() { return this.collisionResults; }
 }
