@@ -1,14 +1,14 @@
-import {GameManager} from '../../../GameManager';
-import {GameObject} from '../../GameObject';
+import {GameManager} from '../../GameManager';
+import {GameObject} from '../GameObject';
 import {PlayerAnimsComponent} from './PlayerAnimsComponent';
 import {PlayerInputComponent} from './PlayerInputComponent';
-import {ForceMoveableComponent} from '../ForceMoveableComponent';
-import {Direction, Force} from '../../../force/Force';
-import {GenericVisualComponent} from '../GenericVisualComponent';
-import {ActiveCollisionComponent} from '../ActiveCollisionComponent';
-import {ForcesContainer} from '../../../force/ForcesContainer';
-import {Vector} from '../../../utils/Vector';
-import {GenericMoveableComponent} from '../GenericMoveableComponent';
+import {ForceMoveableComponent} from '../components/ForceMoveableComponent';
+import {Direction, Force} from '../../force/Force';
+import {GenericVisualComponent} from '../components/GenericVisualComponent';
+import {ActiveCollisionComponent} from '../components/ActiveCollisionComponent';
+import {ForcesContainer} from '../../force/ForcesContainer';
+import {Vector} from '../../utils/Vector';
+import {GenericMoveableComponent} from '../components/GenericMoveableComponent';
 
 export class Player extends GameObject {
     private static moveSpeed: number = 2.5;
@@ -18,7 +18,7 @@ export class Player extends GameObject {
         super();
         this.visualComponent = new GenericVisualComponent(undefined, {x: 400, y: 500});
         let container = this.visualComponent.getContainer();
-        this.collisionComponent = new ActiveCollisionComponent(this, container.getBounds);
+        this.collisionComponent = new ActiveCollisionComponent(this, container.getBounds.bind(container));
         this.forcesContainer = new ForcesContainer();
         this.moveableComponent = new GenericMoveableComponent(this, new Vector());
         this.inputComponent = new PlayerInputComponent(this);
@@ -44,10 +44,10 @@ export class Player extends GameObject {
         const input = this.inputComponent;
         const fc = this.forcesContainer;
         input.on('moveleft', () =>
-            fc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 300), true)
+            fc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 400), true)
         );
         input.on('moveright', () =>
-            fc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 300), true)
+            fc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 400), true)
         );
         input.on('moveleftstop', () => this.setSlideAni(fc, 'mLeft'));
         input.on('moverightstop', () => this.setSlideAni(fc, 'mRight'));

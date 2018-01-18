@@ -1,6 +1,6 @@
 
-import {InputComponent} from '../abstract/InputComponent';
-import {GameObject} from '../../GameObject';
+import {InputComponent} from '../components/abstract/InputComponent';
+import {GameObject} from '../GameObject';
 import {Key} from 'ts-keycode-enum';
 
 export class PlayerInputComponent extends InputComponent {
