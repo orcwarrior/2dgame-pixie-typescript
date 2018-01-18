@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import {MoveableComponent} from '../../engine/gameObjectComponents/MoveableComponent';
 
 export class PlayerAnimsComponent extends AnimsComponent {
-    private lastMCVelocityX: number = 0;
+    private aniSetupReady: boolean;
 
     constructor(parentObject: GameObject, parentContainer: PIXI.Container, inputComponent: InputComponent) {
         super(parentObject, parentContainer);
@@ -15,11 +15,11 @@ export class PlayerAnimsComponent extends AnimsComponent {
         this.setupInputHandling(inputComponent);
     }
 
-    public update(moveableComponent: MoveableComponent): void {
-        if (moveableComponent.getVelocityVector().x === 0 && this.lastMCVelocityX === 0) {
+    public async update(moveableComponent: MoveableComponent): Promise<any> {
+        const curVelocityX = moveableComponent.getVelocityVector().x;
+        if (curVelocityX === 0 && this.aniSetupReady) {
             this.setAni(AniType.idle);
         }
-        this.lastMCVelocityX = moveableComponent.getVelocityVector().x;
     }
 
     private async setupPlayerAnims() {
@@ -32,13 +32,16 @@ export class PlayerAnimsComponent extends AnimsComponent {
             this.parentContainer.addChild(aniSprite);
             aniSprite.visible = false;
         });
+        this.aniSetupReady = true;
         this.setAni(AniType.idle);
         return this.anims;
     }
 
     private setupInputHandling(input: InputComponent): void {
-        input.on('moveright', () => this.setAni(AniType.run_right));
-        input.on('moveleft', () => this.setAni(AniType.run_left));
+        // DK: Force need to gain momentum too, so delaying setting of the ani
+        // will fix issue where character could stay in idle ani.
+        input.on('moveright', () => this.setAni(AniType.run_right, 50));
+        input.on('moveleft', () => this.setAni(AniType.run_left, 50));
         input.on('moverightstop', () => this.setAni(AniType.slide_right));
         input.on('moveleftstop', () => this.setAni(AniType.slide_left));
     }

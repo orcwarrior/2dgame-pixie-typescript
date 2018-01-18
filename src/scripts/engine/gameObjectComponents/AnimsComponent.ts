@@ -32,9 +32,19 @@ export abstract class AnimsComponent extends EventEmitter {
         this.parentContainer.addChild(animatedSprite);
         animatedSprite.visible = false;
     }
-    public setAni(name: AniType) {
+    public setAni(name: AniType, delayMS: number = 0) {
+        if (this.anims[name] === this.currentAni) { return; }
+
+        if (delayMS) {
+            setTimeout(this._setAni.bind(this, name), delayMS);
+        } else {
+            this._setAni(name);
+        }
+    }
+
+    private _setAni(name: AniType) {
         let ani = this.anims[name];
-        if (ani === this.currentAni) { return; }
+        console.log('Set ani: ', name);
         ani.play();
         ani.visible = true;
         if (this.currentAni) {
