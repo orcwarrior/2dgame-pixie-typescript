@@ -1,13 +1,13 @@
 import {Renderable} from '../../../interfaces/Renderable';
 
 export abstract class VisualComponent implements Renderable {
-    protected container: PIXI.Container;
+    protected visualObj: PIXI.DisplayObject;
 
-    constructor(container: PIXI.Container = new PIXI.Container()) {
-        this.container = container;
+    constructor(vObj: PIXI.DisplayObject = new PIXI.Container()) {
+        this.visualObj = vObj;
     }
-    public getContainer(): PIXI.Container {
-        return this.container;
+    public getVisual(): PIXI.DisplayObject {
+        return this.visualObj;
     }
     public abstract render(renderContext: PIXI.WebGLRenderer | PIXI.CanvasRenderer): void;
 }
