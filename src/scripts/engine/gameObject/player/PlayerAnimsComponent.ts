@@ -4,6 +4,7 @@ import generateAnimsMapFromSpritesheet from '../../utils/generateAnimsMapFromSpr
 import {InputComponent} from '../components/abstract/InputComponent';
 import * as _ from 'lodash';
 import {MoveableComponent} from '../components/abstract/MoveableComponent';
+import {Vector} from '../../utils/Vector';
 
 export class PlayerAnimsComponent extends AnimsComponent {
     private aniSetupReady: boolean;
@@ -15,9 +16,8 @@ export class PlayerAnimsComponent extends AnimsComponent {
         this.setupInputHandling(inputComponent);
     }
 
-    public async update(moveableComponent: MoveableComponent): Promise<any> {
-        const curVelocityX = moveableComponent.getVelocityVector().x;
-        if (curVelocityX === 0 && this.aniSetupReady) {
+    public async update(velocity: Vector): Promise<any> {
+        if (velocity.x === 0 && this.aniSetupReady) {
             this.setAni(AniType.idle);
         }
     }
@@ -40,8 +40,8 @@ export class PlayerAnimsComponent extends AnimsComponent {
     private setupInputHandling(input: InputComponent): void {
         // DK: Force need to gain momentum too, so delaying setting of the ani
         // will fix issue where character could stay in idle ani.
-        input.on('moveright', () => this.setAni(AniType.run_right, 50));
-        input.on('moveleft', () => this.setAni(AniType.run_left, 50));
+        input.on('moveright', () => this.setAni(AniType.run_right, 100));
+        input.on('moveleft', () => this.setAni(AniType.run_left, 100));
         input.on('moverightstop', () => this.setAni(AniType.slide_right));
         input.on('moveleftstop', () => this.setAni(AniType.slide_left));
     }

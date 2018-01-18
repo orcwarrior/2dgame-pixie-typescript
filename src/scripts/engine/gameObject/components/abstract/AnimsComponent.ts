@@ -3,6 +3,7 @@ import {GameObject} from '../../GameObject';
 import {AnimsMap} from '../../../utils/utils';
 import AnimatedSprite = PIXI.extras.AnimatedSprite;
 import {MoveableComponent} from './MoveableComponent';
+import {Vector} from '../../../utils/Vector';
 
 export enum AniType {
     idle = 'idle',
@@ -25,7 +26,7 @@ export abstract class AnimsComponent extends EventEmitter {
         this.parent = parentObject;
         this.parentContainer = parentContainer;
     }
-    public abstract update(moveableComponent: MoveableComponent): void;
+    public abstract update(velocity: Vector): void;
 
     public addAni(name: AniType, animatedSprite: AnimatedSprite) {
         this.anims[name] = animatedSprite;
