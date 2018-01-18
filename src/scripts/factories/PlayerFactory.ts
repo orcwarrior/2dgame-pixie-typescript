@@ -1,11 +1,11 @@
 import {GameManager} from '../engine/GameManager';
 import {GameObject} from '../objects/GameObject';
-import {AnimsComponent} from '../engine/gameObjectComponents/AnimsComponent';
 import {PlayerAnimsComponent} from '../objects/player/PlayerAnimsComponent';
 import {PlayerInputComponent} from '../objects/player/PlayerInputComponent';
-import {InputComponent} from '../engine/gameObjectComponents/InputComponent';
 import {ForceMoveableComponent} from '../objects/ForceMoveableComponent';
 import {Direction, Force} from '../engine/Force';
+import {GenericVisualComponent} from '../objects/GenericVisualComponent';
+import {GenericCollisionComponent} from '../objects/GenericCollisionComponent';
 
 let gameManager;
 
@@ -13,83 +13,51 @@ let gameManager;
 class Player extends GameObject {
     private static moveSpeed: number = 2.5;
 
-    private playerContainer: PIXI.Container;
-    private aniComponent: AnimsComponent;
-    private moveableComponent: ForceMoveableComponent;
-    private inputComponent: InputComponent;
 
-    constructor(container: PIXI.Container) {
+    constructor() {
         super();
-        this.playerContainer = container;
+        this.visualComponent = new GenericVisualComponent(undefined, {x: 400, y: 500});
+        let container = this.visualComponent.getContainer();
+        this.collisionComponent = new GenericCollisionComponent(this, container.getBounds);
         this.moveableComponent = new ForceMoveableComponent(this);
         this.inputComponent = new PlayerInputComponent(this);
         this.aniComponent = new PlayerAnimsComponent(this, container, this.inputComponent);
 
         this.setupForcesOnInput();
-        // this.addBBox();
     }
 
     public update(delta: number) {
-        this.moveableComponent.update(this.playerContainer);
         this.aniComponent.update(this.moveableComponent);
-    }
-
-    public render(renderContext: PIXI.WebGLRenderer | PIXI.CanvasRenderer) {
-        renderContext.render(this.playerContainer);
-    }
-
-    private addBBox() {
-        let graphics = new PIXI.Graphics();
-        // set a fill and line style
-        graphics.beginFill(0xFF3300, 0.1);
-        graphics.lineStyle(1, 0xffd900, 0.5);
-        graphics.drawRect(-32, -64, 64, 128);
-        graphics.endFill();
-        this.playerContainer.addChild(graphics);
+        this.moveableComponent.update(this.visualComponent.getContainer());
     }
 
     private setupForcesOnInput() {
         // TODO: Move to some component or create new Moveable for player
         // (Bad thing it would add another level of composition (and complexity))
         const input = this.inputComponent;
-        const mc = this.moveableComponent;
+        const fmc = <ForceMoveableComponent>this.moveableComponent;
         input.on('moveleft', () =>
-            mc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 300), true)
+            fmc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 300), true)
         );
         input.on('moveright', () =>
-            mc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 300), true)
+            fmc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 300), true)
         );
-        input.on('moveleftstop', () => {
-            let curForceVel = this.moveableComponent.getForceVelocity('mLeft');
-            let maxVel = curForceVel.getAbsDominantValue();
-            console.log('Slide time: ', 500 * (maxVel / Player.moveSpeed));
-            mc.applyForce('mLeft', new Force(curForceVel, 1, 500 * (maxVel / Player.moveSpeed), Force.decelerateLinear), true);
-        });
-        input.on('moverightstop', () => {
-            let curForceVel = this.moveableComponent.getForceVelocity('mRight');
-            let maxVel = curForceVel.getAbsDominantValue();
-            console.log('Slide time: ', 500 * (maxVel / Player.moveSpeed));
-            mc.applyForce('mRight', new Force(curForceVel, 1, 500 * (maxVel / Player.moveSpeed), Force.decelerateLinear), true);
-        });
+        input.on('moveleftstop', () => this._setSlideAni(fmc, 'mLeft'));
+        input.on('moverightstop', () => this._setSlideAni(fmc, 'mRight'));
     }
-}
-
-
-function _createPlayerContainer(gameMgrInstance: GameManager) {
-    let container = new PIXI.Container();
-    container.x = 40;
-    container.y = 400;
-    container.setParent(gameMgrInstance.getRootContainer());
-    return container;
+    private _setSlideAni(forceMovablComp: ForceMoveableComponent, forceId: string) {
+        const curForceVel = forceMovablComp.getForceVelocity(forceId);
+        const maxVel = curForceVel.getAbsDominantValue();
+        const slideDuration = 500 * (maxVel / Player.moveSpeed);
+        forceMovablComp.applyForce(forceId, new Force(curForceVel, 1, slideDuration, Force.decelerateLinear), true);
+    }
 }
 
 export function playerFactory(gameMgrInstance: GameManager) {
     gameManager = gameMgrInstance;
     return function (): Player {
 
-        let container = _createPlayerContainer(gameMgrInstance);
-        let player = new Player(container);
-        gameMgrInstance.addRenderableObject(player);
+        let player = new Player();
         gameMgrInstance.addUpdateableObject(player);
         return player;
     };
