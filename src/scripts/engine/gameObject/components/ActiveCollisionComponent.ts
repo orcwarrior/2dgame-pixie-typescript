@@ -6,7 +6,7 @@ import {CollisionResults} from '../../collision/CollisionResults';
 import {EdgeRectangles} from '../../collision/EdgeRectangles';
 import {CollisionReport} from '../../collision/CollisionReport';
 
-export class GenericCollisionComponent extends CollisionComponent {
+export class ActiveCollisionComponent extends CollisionComponent {
     protected static edgeThickness = 1;
     protected collisionResults: CollisionResults;
 
@@ -18,7 +18,7 @@ export class GenericCollisionComponent extends CollisionComponent {
     public update(otherColls: CollisionComponent[]): CollisionResults {
         let results = this.collisionResults = new CollisionResults();
         let cRect: PIXI.Rectangle = this.getCollisionRect();
-        let cRectEdges = new EdgeRectangles(cRect, GenericCollisionComponent.edgeThickness);
+        let cRectEdges = new EdgeRectangles(cRect, ActiveCollisionComponent.edgeThickness);
 
         otherColls.forEach((coll) => {
             let intersection = IntersectRect(cRect, coll.getCollisionRect());
