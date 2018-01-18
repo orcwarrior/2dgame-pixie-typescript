@@ -1,4 +1,5 @@
 import {Vector} from './utils/Vector';
+import _ = require('lodash');
 
 const ForceDir = {
     UP: (f: number) => new Vector(0, -f),
@@ -13,6 +14,10 @@ export enum Direction {
     DOWN = 'DOWN',
     LEFT = 'LEFT'
 }
+export let directionEnumKeys = (function () {
+    let dirKeys = Object.keys(Direction);
+    return _.chain(dirKeys).uniq().map((dir) => <Direction>dir).value();
+})();
 
 export class Force extends PIXI.utils.EventEmitter {
 
