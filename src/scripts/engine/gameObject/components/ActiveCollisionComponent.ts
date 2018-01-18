@@ -1,13 +1,14 @@
 import {CollisionComponent} from './abstract/CollisionComponent';
 import {GameManager} from '../../GameManager';
 import {GameObject} from '../GameObject';
-import {IntersectRect} from '../../utils/utils';
+import {IntersectRect, rectangleIsEmpty} from '../../utils/utils';
 import {CollisionResults} from '../../collision/CollisionResults';
 import {EdgeRectangles} from '../../collision/EdgeRectangles';
 import {CollisionReport} from '../../collision/CollisionReport';
 
 export class ActiveCollisionComponent extends CollisionComponent {
     protected static edgeThickness = 1;
+    protected static minimalCollision: number = 0.5;
     protected collisionResults: CollisionResults;
 
     constructor(parentObject: GameObject, getCollisionRect: () => PIXI.Rectangle, onCollide?: (g: GameObject) => void) {
@@ -22,10 +23,12 @@ export class ActiveCollisionComponent extends CollisionComponent {
 
         otherColls.forEach((coll) => {
             let intersection = IntersectRect(cRect, coll.getCollisionRect());
-            if (intersection !== PIXI.Rectangle.EMPTY) {
+            if (!rectangleIsEmpty(intersection)
+            && (this.isCollidedPartBigEnough(cRect, intersection)
+            ||  this.isCollidedPartBigEnough(coll.getCollisionRect(), intersection))  ) {
                 let collResult = cRectEdges.testIntersection(intersection);
                 let collReport = new CollisionReport(coll, collResult, cRectEdges);
-                console.log('Collision found:', collReport);
+                // console.log('Collision found:', collResult);
                 this.emit('collision', collReport);
                 results.join(collResult);
             }
@@ -33,4 +36,7 @@ export class ActiveCollisionComponent extends CollisionComponent {
         return results;
     }
     public getCollisionResults() { return this.collisionResults; }
+    private isCollidedPartBigEnough(selfRect: PIXI.Rectangle, intersect: PIXI.Rectangle) {
+        return (intersect.width * intersect.height) / (selfRect.width * selfRect.height) >= ActiveCollisionComponent.minimalCollision;
+    }
 }
