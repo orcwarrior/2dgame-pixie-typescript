@@ -53,10 +53,19 @@ export class GameManager {
     }
 
     private update(delta: number) {
+        this.updateCollisions();
+
         this.updateableObjects.forEach((mob) => mob.update(delta));
         this.renderableObjects.forEach((renderable) => renderable.render(this.renderer));
 
         this.renderer.render(this.rootContainer);
+    }
+    private updateCollisions() {
+        this.collideablesObjects.forEach((collideable) => {
+            let otherColls = this.collideablesObjects
+                .filter((coll) => coll === collideable);
+            collideable.update(otherColls);
+        });
     }
 
     public addUpdateableObject(obj: Updateable) {
