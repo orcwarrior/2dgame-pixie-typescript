@@ -16,7 +16,7 @@ export class Player extends GameObject {
 
     constructor() {
         super();
-        this.visualComponent = new GenericVisualComponent(undefined, {x: 400, y: 500});
+        this.visualComponent = new GenericVisualComponent({x: 400, y: 500});
         let container = this.visualComponent.getContainer();
         this.collisionComponent = new ActiveCollisionComponent(this, container.getBounds.bind(container));
         this.forcesContainer = new ForcesContainer();
@@ -29,13 +29,13 @@ export class Player extends GameObject {
     }
 
     public update(delta: number) {
-        let finalVector = this.forcesContainer.update();
+        let finalVelocity = this.forcesContainer.update();
         if (<ActiveCollisionComponent>this.collisionComponent) {
             let collResult = (<ActiveCollisionComponent>this.collisionComponent).getCollisionResults();
-            finalVector = collResult.filterVelocityVector(finalVector);
+            finalVelocity = collResult.filterVelocityVector(finalVelocity);
         }
-        this.aniComponent.update(this.moveableComponent);
-        this.moveableComponent.update(this.visualComponent.getContainer(), finalVector);
+        this.aniComponent.update(finalVelocity);
+        this.moveableComponent.update(this.visualComponent.getContainer(), finalVelocity);
     }
 
     private setupForcesOnInput() {
@@ -44,10 +44,10 @@ export class Player extends GameObject {
         const input = this.inputComponent;
         const fc = this.forcesContainer;
         input.on('moveleft', () =>
-            fc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 400), true)
+            fc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 250), true)
         );
         input.on('moveright', () =>
-            fc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 400), true)
+            fc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 250), true)
         );
         input.on('moveleftstop', () => this.setSlideAni(fc, 'mLeft'));
         input.on('moverightstop', () => this.setSlideAni(fc, 'mRight'));
