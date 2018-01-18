@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import {InputManager} from './InputManager';
 import {Updateable} from './interfaces/Updateable';
 import {Renderable} from './interfaces/Renderable';
-import {Player} from './gameObject/components/player/Player';
+import {Player} from './gameObject/player/Player';
 import {CollisionComponent} from './gameObject/components/abstract/CollisionComponent';
 
 let goombaRes = require('file-loader!res/sprites/goomba.png');
@@ -24,23 +24,23 @@ export class GameManager {
     private player: Player;
 
     constructor(wrapperId: string) {
-        GameManager.instance = this;
+        this.rootContainer = new PIXI.Container();
+        this.rootContainer.name = 'PIXI-ROOT-CONTAINER';
         let app = this.renderer = PIXI.autoDetectRenderer({width: 800, height: 600, clearBeforeRender: false});
-        // this.objects = new PIXI.Container();
+
         this.inputMgr = new InputManager();
         let updateTicker = this.ticker = PIXI.ticker.shared;
         updateTicker.add(this.update, this);
+        GameManager.instance = this;
 
         this.gameWrapper = document.getElementById(wrapperId);
         if (this.gameWrapper) {
             this.gameWrapper.appendChild(this.renderer.view);
         }
+
+
         this.player = new Player();
 
-        this.rootContainer = new PIXI.Container();
-        this.rootContainer.name = 'PIXI-ROOT-CONTAINER';
-
-        this.player = this.playerFactory();
     }
 
     public getInputManager() {
@@ -61,7 +61,7 @@ export class GameManager {
     private updateCollisions() {
         this.collideablesObjects.forEach((collideable) => {
             let otherColls = this.collideablesObjects
-                .filter((coll) => coll === collideable);
+                .filter((coll) => coll !== collideable);
             collideable.update(otherColls);
         });
     }
