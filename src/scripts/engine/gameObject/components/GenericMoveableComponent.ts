@@ -9,7 +9,8 @@ export class GenericMoveableComponent extends MoveableComponent {
         super(parent, velocity);
     }
     // Returns velocity vector:
-    public update(parentContainer: PIXI.Container): Vector {
+    public update(parentContainer: PIXI.Container, passedVelocity?: Vector): Vector {
+        if (passedVelocity) {this.velocity = passedVelocity; }
         parentContainer.x += this.velocity.x;
         parentContainer.y += this.velocity.y;
         return this.velocity;

@@ -7,12 +7,12 @@ import {Vector} from '../../utils/Vector';
 export class ForceMoveableComponent extends MoveableComponent {
     private forces: ForcesContainer;
 
-    constructor(parentObject: GameObject, velocity?: Vector) {
+    constructor(parentObject: GameObject, velocity?: Vector, forceContainer?: ForcesContainer) {
         super(parentObject, velocity);
-        this.forces = new ForcesContainer();
+        this.forces = forceContainer || new ForcesContainer();
     }
-    public update(parentContainer: PIXI.Container): Vector {
-        this.velocity = this.forces.update();
+    public update(parentContainer: PIXI.Container, passedVelocity?: Vector): Vector {
+        this.velocity = passedVelocity || this.forces.update();
         parentContainer.x += this.velocity.x;
         parentContainer.y += this.velocity.y;
         return this.velocity;

@@ -12,7 +12,7 @@ export abstract class MoveableComponent extends EventEmitter {
         this.velocity = velocity;
     }
 
-    public abstract update(parentContainer: PIXI.Container): Vector;
+    public abstract update(parentContainer: PIXI.Container, passedVelocity?: Vector): Vector;
     public getVelocityVector() {
         return new Vector(this.velocity.x, this.velocity.y);
     }
