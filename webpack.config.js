@@ -30,8 +30,10 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.ts$/,
                 loader: 'tslint-loader',
+                options: {typeCheck: false}
             },
-            {test: /\.(jpe?g|gif|png|woff|ttf|wav|mp3)$/, loader: ['file-loader']},
+            /* textures */
+            // { test: /\.(jpe?g|gif|png)$/, loader: 'file-loader' },
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({
@@ -59,6 +61,9 @@ module.exports = {
     resolve: {
         modules: ['node_modules', path.resolve(__dirname, 'src')],
         extensions: ['.ts', '.js', 'scss'],
+        alias: {
+            sprites$: path.resolve(__dirname, 'res/sprites/')
+        }
     },
 
     devServer: {
