@@ -1,21 +1,8 @@
 # HUNGRY-HOMELES-VIKING
 ###(2dgame-pixie-typescript)
 ![viking-game](https://i.imgur.com/s897CFN.png)
-## Fetch dependencies
-```
-npm install
-```
 
-## Run webpack
-```
-npm run build
-```
-
-## Start http-server
-```
-npm start
-```
-
+##FEATURES
 - Całośc kodu jest na tyle elastyczna (albo byłaby gdyby wprowadzić jeszcze kilka poprawek), że pozwala na dość łatwą zmiane
 charakteru całości rozgrywki, wiekszość klas/komponentów jest możliwie słabo powiązana.
 - System 'fizyki' (Force/ForceContainer) pozwalający osiągnąć dość realistycznie wyglądające ruchy obiektów.
@@ -39,5 +26,20 @@ Game Features:
 - Skonfigurowac loadery do plików webpacka, zamiast ładować wszystko loaderami explicite.
 - Dodać loggera
 
+
+## Fetch dependencies
+```
+npm install
+```
+
+## Run webpack
+```
+npm run build
+```
+
+## Start http-server
+```
+npm start
+```
 ##CREDITS
 (TODO)
