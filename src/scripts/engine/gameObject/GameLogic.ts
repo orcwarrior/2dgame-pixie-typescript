@@ -39,7 +39,7 @@ export class GameLogic implements Updateable {
         }
         let foodOrigin = getFoodOriginLocations();
         let food = this.foodFactory(foodOrigin);
-        GameManager.instance.getSoundManager().play(sfx.fall);
+        GameManager.instance.getSoundManager().play(sfx.fall, 0.5);
         this.scene.addObject(food.vis);
         food.gameObj.on('collision', this.foodCollision.bind(this));
         this.foodDelivery = false;
