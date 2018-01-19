@@ -32,13 +32,6 @@ export function firstSceneFactory(): Scene {
     // TODO: Way of creating & configuring sprites is big no-no
     // extract to some util/factory function
     // (factory with some mutation function after onLoad would be nice -> for screen scaling propouses etc)
-    const goombaSprite = PIXI.Sprite.fromImage(goombaRes);
-    goombaSprite.width = 50;
-    goombaSprite.height = 50;
-    let goombaVis = new GenericVisualComponent(goombaSprite, {x: sX(20), y: sY(230)});
-    let goomba = new StaticObject(goombaVis);
-    scene.addObject(goombaVis);
-
 
     [sX(2), sX(130), sX(270), sX(400)].forEach((x) => {
         const barrierTex = PIXI.Texture.fromImage(barrierRes, undefined, PIXI.SCALE_MODES.NEAREST);
