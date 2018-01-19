@@ -30,5 +30,5 @@ gm.on('statechange', (state: GameState) => {
 });
 
 ( function loadBGMusic() {
-    gm.getSoundManager().play(require('file-loader!res/sfx/bgMusic.mp3'), 0.4, true, false);
+    gm.getSoundManager().play(require('file-loader!res/sfx/bgMusic.mp3'), 0.4, true, true);
 })();
