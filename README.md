@@ -1,8 +1,8 @@
 # HUNGRY-HOMELES-VIKING
-###(2dgame-pixie-typescript)
+### (2dgame-pixie-typescript)
 ![viking-game](https://i.imgur.com/s897CFN.png)
 
-##FEATURES
+# FEATURES
 - Całośc kodu jest na tyle elastyczna (albo byłaby gdyby wprowadzić jeszcze kilka poprawek), że pozwala na dość łatwą zmiane
 charakteru całości rozgrywki, wiekszość klas/komponentów jest możliwie słabo powiązana.
 - System 'fizyki' (Force/ForceContainer) pozwalający osiągnąć dość realistycznie wyglądające ruchy obiektów.
@@ -15,7 +15,7 @@ charakteru całości rozgrywki, wiekszość klas/komponentów jest możliwie sł
 Game Features:
 - Player moves with 'inertia' (like in mario); additionally starting to moving ease in slowly and release slowly too.
 
-##TODO / NOTES:
+# TODO / NOTES:
 - Plugin do dzwieku, kilka dzwieków, SoundManager?
 - Poprawki kwestii wizualnych.
 - Przejrzeć ponownie kod pod kątek refaktoryzacji.
@@ -41,5 +41,5 @@ npm run build
 ```
 npm start
 ```
-##CREDITS
+# CREDITS
 (TODO)
