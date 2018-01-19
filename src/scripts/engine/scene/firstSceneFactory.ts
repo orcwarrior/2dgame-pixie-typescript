@@ -6,7 +6,6 @@ import {GameManager} from '../GameManager';
 import BaseTexture = PIXI.BaseTexture;
 
 let bgRes = require('file-loader!res/sprites/bg.png');
-let goombaRes = require('file-loader!res/sprites/goomba.png');
 let barrierRes = require('file-loader!res/sprites/derbis/barrier.png');
 let lamplightRes = require('file-loader!res/sprites/fx/lamplight.png');
 
