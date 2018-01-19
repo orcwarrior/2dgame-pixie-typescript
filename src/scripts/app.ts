@@ -16,13 +16,19 @@ if (stats) {
 }
 
 gm.on('statechange', (state: GameState) => {
-    if (!dialog) { return; }
+    if (!dialog) {
+        return;
+    }
 
     if (state === GameState.PLAY) {
-    dialog.innerText = '';
-} else if (state === GameState.PAUSED) {
-    dialog.innerText = `<KLIKNIJ ESC BY KONTYNUOWAC>`;
-} else if (state === GameState.OVER) {
-    dialog.innerText = `<KONIEC GRY NACISNIJ F5 ;-) BY ZACZAC OD NOWA>`;
+        dialog.innerText = '';
+    } else if (state === GameState.PAUSED) {
+        dialog.innerText = `<KLIKNIJ ESC BY KONTYNUOWAC>`;
+    } else if (state === GameState.OVER) {
+        dialog.innerText = `<KONIEC GRY NACISNIJ F5 ;-) BY ZACZAC OD NOWA>`;
     }
 });
+
+( function loadBGMusic() {
+    gm.getSoundManager().play(require('file-loader!res/sfx/bgMusic.mp3'), 0.4, true, false);
+})();
