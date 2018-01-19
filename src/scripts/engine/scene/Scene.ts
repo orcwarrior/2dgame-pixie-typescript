@@ -2,46 +2,46 @@ import {Renderable} from '../interfaces/Renderable';
 import Container = PIXI.Container;
 import DisplayObject = PIXI.DisplayObject;
 import {Player} from '../gameObject/player/Player';
+import {VisualComponent} from '../gameObject/components/abstract/VisualComponent';
 
 export class Scene implements Renderable {
-    private background: Container;
-    private objects: Container;
-    private foreground: Container;
+    private visualsBackground: VisualComponent[];
+    private visualsObjects: VisualComponent[];
+    private visualsForeground: VisualComponent[];
     private player: DisplayObject;
 
-    constructor(player: Player, initBg?: (c: Container) => DisplayObject[],
-                initObjs?: (c: Container) => DisplayObject[],
-                initFg?: (c: Container) => DisplayObject[]) {
+    constructor(player?: Player) {
         // TODO: Some z-index of rendering library would be handy
-        this.background = new PIXI.Container();
-        this.objects = new PIXI.Container();
-        this.foreground = new PIXI.Container();
-        if (initBg) { initBg(this.background); }
-        if (initObjs) { initObjs(this.background); }
-        if (initFg) { initFg(this.background); }
 
-        this.player = player.getVisuals();
+        this.visualsBackground = [];
+        this.visualsObjects = [];
+        this.visualsForeground = [];
+
+        if (player) { this.player = player.getVisuals(); }
 
     }
 
 
     public render(renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer): void {
-        // Simply stacking of layers, but z-index plugin for PIXI would be handy
-        renderer.render(this.background);
-        renderer.render(this.objects);
-        renderer.render(this.player);
-        renderer.render(this.foreground);
+        this.visualsBackground.forEach((v) => renderer.render(v.getVisual()));
+        this.visualsObjects.forEach((v) => renderer.render(v.getVisual()));
+        if (this.player) { renderer.render(this.player); }
+        this.visualsForeground.forEach((v) => renderer.render(v.getVisual()));
     }
 
-    public addBackground(d: DisplayObject, pos?: number) { this.addToContainer(d, this.background, pos); }
-    public addObject(d: DisplayObject, pos?: number)     { this.addToContainer(d, this.objects, pos); }
-    public addBackgrund(d: DisplayObject, pos?: number)  { this.addToContainer(d, this.foreground, pos); }
+    public addBackground(v: VisualComponent, pos?: number) {
+        this.visualsBackground.push(v);  }
+    public addObject(v: VisualComponent, pos?: number)     {
+        this.visualsObjects.push(v);  }
+    public addForeground(v: VisualComponent, pos?: number)  {
+        this.visualsForeground.push(v);  }
+    public removeVisual(v: VisualComponent) {
+        this.visualsBackground = this.visualsBackground.filter((vb) => v !== vb);
+        this.visualsObjects = this.visualsObjects.filter((vo) => v !== vo);
+        this.visualsForeground = this.visualsForeground.filter((vf) => v !== vf);
 
-    private addToContainer(d: DisplayObject, c: Container, pos?: number) {
-        if (pos && 0 >= pos && pos < c.children.length ) {
-            c.addChildAt(d, pos);
-        } else {
-            c.addChild(d);
-        }
     }
+    public addPlayer(p: Player) {this.player = p.getVisuals(); }
+
+
 }

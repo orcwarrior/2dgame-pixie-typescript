@@ -11,36 +11,32 @@ let bgRes = require('file-loader!res/sprites/bg.png');
 let goombaRes = require('file-loader!res/sprites/goomba.png');
 
 
-export function firstSceneFactory(player: Player): Scene {
-    let scene = new Scene(player);
+export function firstSceneFactory(): Scene {
+    let scene = new Scene();
     const [sX, sY] = orgCoordToScaled();
     // Backgrounds:
     let bgSprite = PIXI.Sprite.fromImage(bgRes, undefined, PIXI.SCALE_MODES.NEAREST);
     let sceneWidth = bgSprite.width = GameManager.instance.gameSize.width;
     bgSprite.height = GameManager.instance.gameSize.height;
-    let bg = new StaticObject(new GenericVisualComponent(bgSprite), false);
-    scene.addBackground(bgSprite);
+    let bgVis = new GenericVisualComponent(bgSprite);
+    let bg = new StaticObject(bgVis, false);
+    scene.addBackground(bgVis);
 
     let bridgeGFX = new PIXI.Graphics();
     bridgeGFX.beginFill(0x030c0f);
     bridgeGFX.drawRect(0, sY(237), sceneWidth, sY(10));
-    let bridge = new StaticObject(new GenericVisualComponent(bridgeGFX));
-    scene.addBackground(bridgeGFX);
+    let bridgeVis = new GenericVisualComponent(bridgeGFX);
+    let bridge = new StaticObject(bridgeVis);
+    scene.addBackground(bridgeVis);
     // TODO: Way of creating & configuring sprites is big no-no
     // extract to some util function
     const goombaSprite = PIXI.Sprite.fromImage(goombaRes);
     goombaSprite.width = 50;
     goombaSprite.height = 50;
-    let goomba = new StaticObject(new GenericVisualComponent(goombaSprite, {x: sX(20), y: sY(230)}));
-    scene.addObject(goombaSprite);
+    let goombaVis = new GenericVisualComponent(goombaSprite, {x: sX(20), y: sY(230)});
+    let goomba = new StaticObject(goombaVis);
+    scene.addObject(goombaVis);
 
-    foodFactory().then((FoodFactory: (fo: any) => foodFactoryResult) => {
-        delayedPromise(2000, () => {
-            let foodOrigin = getFoodOriginLocations();
-            let food = FoodFactory(foodOrigin);
-            scene.addObject(food.vis);
-        });
-    });
 
     return scene;
 }
