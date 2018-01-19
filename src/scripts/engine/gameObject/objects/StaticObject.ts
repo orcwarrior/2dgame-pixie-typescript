@@ -11,7 +11,6 @@ export class StaticObject extends GameObject {
         if (collision) {
             this.collisionComponent = new PassiveCollisionComponent(this, containerBoundingRect);
         }
-
     }
     public update(delta: number): void { return; }
 }

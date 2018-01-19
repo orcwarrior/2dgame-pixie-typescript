@@ -11,7 +11,7 @@ export class PassiveCollisionComponent extends CollisionComponent {
         GameManager.instance.addCollideable(this);
     }
 
-    // Passive collision component don't check collision with other collideables.
+    // Passive collision component doesn't check collision with other collideables.
     public update(otherColls: CollisionComponent[]): void {
         return;
     }
