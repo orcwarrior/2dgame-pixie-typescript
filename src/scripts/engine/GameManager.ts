@@ -4,8 +4,6 @@ import {Updateable} from './interfaces/Updateable';
 import {Renderable} from './interfaces/Renderable';
 import {Player} from './gameObject/player/Player';
 import {CollisionComponent} from './gameObject/components/abstract/CollisionComponent';
-import {StaticObject} from './gameObject/objects/StaticObject';
-import {GenericVisualComponent} from './gameObject/components/GenericVisualComponent';
 import {Scene} from './scene/Scene';
 import {firstSceneFactory} from './scene/firstSceneFactory';
 
@@ -14,7 +12,8 @@ export class GameManager {
 
     // TODO: Make it proper singleton
     public static instance: GameManager;
-    private gameSize: PIXI.Rectangle;
+    private _gameSize: PIXI.Rectangle;
+    get gameSize(): PIXI.Rectangle { return new PIXI.Rectangle(0, 0, this._gameSize.width, this._gameSize.height); }
 
     private gameWrapper: HTMLElement | null;
     private renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
@@ -30,23 +29,22 @@ export class GameManager {
     private player: Player;
 
     constructor(wrapperId: string) {
-        this.gameSize = this.initializeGameWrapperElement(wrapperId);
+        GameManager.instance = this;
+        this._gameSize = this.initializeGameWrapperElement(wrapperId);
 
         this.rootContainer = new PIXI.Container();
         this.rootContainer.name = 'PIXI-ROOT-CONTAINER';
-        this.renderer = PIXI.autoDetectRenderer({width: this.gameSize.width, height: this.gameSize.height,
+        this.renderer = PIXI.autoDetectRenderer({width: this._gameSize.width, height: this._gameSize.height,
             clearBeforeRender: false, autoResize: true});
         if (this.gameWrapper) {
             this.gameWrapper.appendChild(this.renderer.view);
         }
-
         this.inputMgr = new InputManager();
         let updateTicker = this.ticker = PIXI.ticker.shared;
         updateTicker.add(this.update, this);
-        GameManager.instance = this;
-        this.player = new Player();
-        this.scene = firstSceneFactory(this.gameSize, this.player);
 
+        this.player = new Player();
+        this.scene = firstSceneFactory(this.player);
 
     }
 
@@ -79,7 +77,7 @@ export class GameManager {
         this.collideablesObjects.push(collisionComponent);
     }
 
-    // TODO: Extract functionality to new class
+    // TODO: Extract functionality to new class (with resize)
     private initializeGameWrapperElement(wrapperId: string): PIXI.Rectangle {
         this.gameWrapper = document.getElementById(wrapperId);
         if (this.gameWrapper) {

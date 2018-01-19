@@ -5,24 +5,25 @@ import {Player} from '../gameObject/player/Player';
 import {foodFactory, foodFactoryResult, getFoodOriginLocations} from '../factories/foodFactory';
 import {orgCoordToScaled} from '../utils/coordScalar';
 import {delayedPromise} from '../utils/delayedPromise';
+import {GameManager} from '../GameManager';
 
 let bgRes = require('file-loader!res/sprites/bg.png');
 let goombaRes = require('file-loader!res/sprites/goomba.png');
 
 
-export function firstSceneFactory(sceneSize: PIXI.Rectangle, player: Player): Scene {
+export function firstSceneFactory(player: Player): Scene {
     let scene = new Scene(player);
     const [sX, sY] = orgCoordToScaled();
     // Backgrounds:
     let bgSprite = PIXI.Sprite.fromImage(bgRes, undefined, PIXI.SCALE_MODES.NEAREST);
-    bgSprite.width = sceneSize.width;
-    bgSprite.height = sceneSize.height;
+    let sceneWidth = bgSprite.width = GameManager.instance.gameSize.width;
+    bgSprite.height = GameManager.instance.gameSize.height;
     let bg = new StaticObject(new GenericVisualComponent(bgSprite), false);
     scene.addBackground(bgSprite);
 
     let bridgeGFX = new PIXI.Graphics();
     bridgeGFX.beginFill(0x030c0f);
-    bridgeGFX.drawRect(0, sY(237), sceneSize.width, sY(10));
+    bridgeGFX.drawRect(0, sY(237), sceneWidth, sY(10));
     let bridge = new StaticObject(new GenericVisualComponent(bridgeGFX));
     scene.addBackground(bridgeGFX);
     // TODO: Way of creating & configuring sprites is big no-no
