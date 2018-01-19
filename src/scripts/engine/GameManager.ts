@@ -19,6 +19,7 @@ export class GameManager extends EventEmitter {
 
     // TODO: Make it proper singleton
     public static instance: GameManager;
+    private static UpdatesPSLimit: number = 60;
     get gameSize(): PIXI.Rectangle { return new PIXI.Rectangle(0, 0, this._gameSize.width, this._gameSize.height); }
     private _scene: Scene;
     get scene() {return this._scene; }
@@ -51,8 +52,10 @@ export class GameManager extends EventEmitter {
             this.gameWrapper.appendChild(this.renderer.view);
         }
         this.inputMgr = new InputManager();
-        let updateTicker = PIXI.ticker.shared;
-        updateTicker.add(this.update, this);
+
+        // NOTE: Ticker fps differs on different display, when frame cap at 120 fps
+        // updates in game was done too fast
+        let updateInterval = setInterval(this.update.bind(this), 1000 / GameManager.UpdatesPSLimit);
         this._scene = firstSceneFactory();
         this.player = new Player();
         this._scene.addPlayer(this.player);
