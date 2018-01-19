@@ -10,19 +10,28 @@ import {Vector} from '../../utils/Vector';
 import {GenericMoveableComponent} from '../components/GenericMoveableComponent';
 
 export class Player extends GameObject {
-    private static moveSpeed: number = 2.5;
+    private static speed: number = 3.5;
+    private static majesticGravity: Force = new Force(Direction.DOWN, 3.5, 500, Force.easeLinear);
+
     protected forcesContainer: ForcesContainer;
     protected animsContainer: PIXI.Container;
+    private moveSpeed: number;
+
+    public static isPlayer = function (obj: any) {
+        return obj.constructor && obj.constructor.name === 'Player';
+    };
+
     constructor() {
         super();
         let container = this.animsContainer = new PIXI.Container();
-        this.visualComponent = new GenericVisualComponent(container, {x: 400, y: 300});
+        this.visualComponent = new GenericVisualComponent(container, {x: 600, y: 500});
         this.collisionComponent = new ActiveCollisionComponent(this, container.getBounds.bind(container));
         this.forcesContainer = new ForcesContainer();
-        this.forcesContainer.applyForce('gravity', Force.gravity);
+        this.forcesContainer.applyForce('gravity', Player.majesticGravity );
         this.moveableComponent = new GenericMoveableComponent(this, new Vector());
         this.inputComponent = new PlayerInputComponent(this);
         this.aniComponent = new PlayerAnimsComponent(this, container, this.inputComponent);
+        this.moveSpeed = Player.speed;
 
         this.setupForcesOnInput();
         GameManager.instance.addUpdateableObject(this);
@@ -46,10 +55,10 @@ export class Player extends GameObject {
         const input = this.inputComponent;
         const fc = this.forcesContainer;
         input.on('moveleft', () =>
-            fc.applyForce('mLeft', new Force(Direction.LEFT, Player.moveSpeed, 250), true)
+            fc.applyForce('mLeft', new Force(Direction.LEFT, this.moveSpeed, 250), true)
         );
         input.on('moveright', () =>
-            fc.applyForce('mRight', new Force(Direction.RIGHT, Player.moveSpeed, 250), true)
+            fc.applyForce('mRight', new Force(Direction.RIGHT, this.moveSpeed, 250), true)
         );
         input.on('moveleftstop', () => this.setSlideAni(fc, 'mLeft'));
         input.on('moverightstop', () => this.setSlideAni(fc, 'mRight'));
@@ -59,7 +68,8 @@ export class Player extends GameObject {
         // DK: Get progress method would do the same without 'magic', make it public?
         const curForceVel = forceCont.getForceVelocity(forceId);
         const maxVel = curForceVel.getAbsDominantValue();
-        const slideDuration = 500 * (maxVel / Player.moveSpeed);
+        const slideDuration = 500 * (maxVel / this.moveSpeed);
         forceCont.applyForce(forceId, new Force(curForceVel, 1, slideDuration, Force.decelerateLinear), true);
     }
+
 }
