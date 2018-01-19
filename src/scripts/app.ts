@@ -1,11 +1,28 @@
 import '../styles/base.scss';
-import { GameManager } from './engine/GameManager';
-import { Greeter } from './greeter';
+import {GameManager, GameState} from './engine/GameManager';
 
-// import '../res/sprites/goomba.png';
-const greeter: Greeter = new Greeter('2dgame-pixie-typescript');
 
 const gm = new GameManager('game-wrapper');
-// if (el) {
-//   el.innerHTML = greeter.greet();
-// }
+
+const stats = document.getElementById('game-stats');
+const dialog = document.getElementById('game-dialog');
+
+if (stats) {
+    setInterval(() => {
+        let gmStats = gm.getStats();
+        stats.innerText = `SCORE: ${gmStats.score}\n
+                           LIVES: ${gmStats.lives}`;
+    }, 100);
+}
+
+gm.on('statechange', (state: GameState) => {
+    if (!dialog) { return; }
+
+    if (state === GameState.PLAY) {
+    dialog.innerText = '';
+} else if (state === GameState.PAUSED) {
+    dialog.innerText = `<KLIKNIJ ESC BY KONTYNUOWAC>`;
+} else if (state === GameState.OVER) {
+    dialog.innerText = `<KONIEC GRY NACISNIJ F5 ;-) BY ZACZAC OD NOWA>`;
+    }
+});
