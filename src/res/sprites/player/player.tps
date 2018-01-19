@@ -185,9 +185,9 @@
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
-            <uint>1</uint>
+            <uint>3</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">None</enum>
+            <enum type="SpriteSettings::TrimMode">Trim</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>
@@ -199,6 +199,10 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">D:/Downloads/4 directional character/idle_0.png</key>
+            <key type="filename">D:/Downloads/4 directional character/idle_1.png</key>
+            <key type="filename">D:/Downloads/4 directional character/idle_2.png</key>
+            <key type="filename">D:/Downloads/4 directional character/idle_3.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_down_0.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_down_1.png</key>
             <key type="filename">D:/Downloads/4 directional character/run_down_2.png</key>
@@ -262,6 +266,10 @@
             <filename>D:/Downloads/4 directional character/run_up_4.png</filename>
             <filename>D:/Downloads/4 directional character/slide_left_0.png</filename>
             <filename>D:/Downloads/4 directional character/slide_right_0.png</filename>
+            <filename>D:/Downloads/4 directional character/idle_0.png</filename>
+            <filename>D:/Downloads/4 directional character/idle_1.png</filename>
+            <filename>D:/Downloads/4 directional character/idle_2.png</filename>
+            <filename>D:/Downloads/4 directional character/idle_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
