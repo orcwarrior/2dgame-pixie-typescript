@@ -19,21 +19,20 @@ export class GameManager extends EventEmitter {
 
     // TODO: Make it proper singleton
     public static instance: GameManager;
+    get gameSize(): PIXI.Rectangle { return new PIXI.Rectangle(0, 0, this._gameSize.width, this._gameSize.height); }
+    private _scene: Scene;
+    get scene() {return this._scene; }
+
     private _gameSize: PIXI.Rectangle;
     private logic: GameLogic;
-    get gameSize(): PIXI.Rectangle { return new PIXI.Rectangle(0, 0, this._gameSize.width, this._gameSize.height); }
-
     private _initialized: boolean;
     private gameWrapper: HTMLElement | null;
     private renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
-    private _scene: Scene;
-    get scene() {return this._scene; }
     private _state: GameState;
     private set state(s: GameState) {
         this.emit('statechange', s);
         this._state = s;
     }
-
     // Managers:
     private inputMgr: InputManager;
     // Objects Collections/Containers:

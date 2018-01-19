@@ -7,7 +7,6 @@ import {ForcesContainer} from '../force/ForcesContainer';
 import {Direction, Force} from '../force/Force';
 import {Vector} from '../utils/Vector';
 import * as _ from 'lodash';
-import DisplayObject = PIXI.DisplayObject;
 import {Player} from '../gameObject/player/Player';
 import {CollisionReport} from '../collision/CollisionReport';
 import {orgCoordToScaled} from '../utils/coordScalar';
