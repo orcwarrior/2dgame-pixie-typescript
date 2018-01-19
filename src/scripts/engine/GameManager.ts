@@ -8,6 +8,7 @@ import {firstSceneFactory} from './scene/firstSceneFactory';
 import {GameLogic} from './gameObject/GameLogic';
 import {PlayerStats} from './gameObject/player/PlayerStats';
 import EventEmitter = PIXI.utils.EventEmitter;
+import {SoundManager} from './SoundManager';
 
 
 export enum GameState {
@@ -36,6 +37,7 @@ export class GameManager extends EventEmitter {
     }
     // Managers:
     private inputMgr: InputManager;
+    private soundMgr: SoundManager;
     // Objects Collections/Containers:
     private updateableObjects: Array<Updateable> = [];
     private collideablesObjects: Array<CollisionComponent> = [];
@@ -52,6 +54,7 @@ export class GameManager extends EventEmitter {
             this.gameWrapper.appendChild(this.renderer.view);
         }
         this.inputMgr = new InputManager();
+        this.soundMgr = new SoundManager();
 
         // NOTE: Ticker fps differs on different display, when frame cap at 120 fps
         // updates in game was done too fast
@@ -73,6 +76,9 @@ export class GameManager extends EventEmitter {
 
     public getInputManager() {
         return this.inputMgr;
+    }
+    public getSoundManager() {
+        return this.soundMgr;
     }
     private update(delta: number) {
         if (this._state === GameState.PLAY) {
