@@ -1,4 +1,5 @@
 import {Key} from 'ts-keycode-enum';
+import {GameManager, GameState} from './GameManager';
 
 export enum keyEvents {
     // NOTE: keydown acts differently than normal DOM KeyboardEvent, it's fired
@@ -16,11 +17,11 @@ export class InputManager extends PIXI.utils.EventEmitter {
         this.keypressed = {};
         keyEventsNames.forEach((eventName) => this.convertBrowserKeyEvent(eventName));
 
+        this.mainGameKeyevents();
     }
 
     public addKeyEventListener(keyEvent: keyEvents | string, keyName: Key, fn: Function, context?: any) {
         this.addListener(this.composeEventName(keyEvent.toString(), keyName), fn, context);
-
     }
 
     private convertBrowserKeyEvent(eventName: string) {
@@ -34,6 +35,19 @@ export class InputManager extends PIXI.utils.EventEmitter {
                 this.emit(newEventName, kbEvent);
                 this.keypressed[keyName] = (eventName !== keyEvents.keyup); // set keypressed depending on event
                 console.log(this.keypressed);
+            }
+        });
+    }
+
+    // TODO: I Don't like this piece of code there
+    private mainGameKeyevents() {
+
+        this.addKeyEventListener(keyEvents.keydown, Key.Enter, () => GameManager.instance.initialize());
+        this.addKeyEventListener(keyEvents.keydown, Key.Escape, () => {
+            if (GameManager.instance.getState() === GameState.PLAY) {
+                GameManager.instance.pause();
+            } else {
+                GameManager.instance.unpause();
             }
         });
     }
