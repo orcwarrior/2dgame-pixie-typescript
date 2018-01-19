@@ -1,12 +1,14 @@
 import {GameObject} from '../../GameObject';
 import EventEmitter = PIXI.utils.EventEmitter;
+import {CollisionReport} from '../../../collision/CollisionReport';
 
+export type onCollideFunction = (o: GameObject, r: CollisionReport) => void;
 export abstract class CollisionComponent extends EventEmitter {
     protected parent: GameObject;
     public getCollisionRect: () => PIXI.Rectangle;
-    public onCollide: (g: GameObject) => void;
+    public onCollide: onCollideFunction;
     constructor(parentObject: GameObject, getCollisionRect: () => PIXI.Rectangle,
-                onCollide?: (g: GameObject) => void) {
+                onCollide?: onCollideFunction) {
         super();
         this.parent = parentObject;
         if (onCollide) {this.onCollide = onCollide; }
@@ -15,4 +17,5 @@ export abstract class CollisionComponent extends EventEmitter {
         this.getCollisionRect = getCollisionRect;
     }
     public abstract update(otherColls: CollisionComponent[]): void;
+    public getParent() { return this.parent; }
 }
