@@ -37,7 +37,7 @@ html { height: 100%; }
   margin-left: -200px;
   width: 450px; height: 100%;
   padding: 20px;
-  animation: fade-in-out 1.5s 9999;
+  animation: fade-in-out 1.9s 9999;
   & > h1 {
     font-size: 60pt;
     margin: 0;
@@ -61,6 +61,6 @@ html { height: 100%; }
 
 }
 @keyframes fade-in-out  {
-  0, 35%, 65%, 100% {opacity: 1;}
+  0%, 25%, 75%, 100% {opacity: 1;}
   50% {opacity: 0;}
 }
