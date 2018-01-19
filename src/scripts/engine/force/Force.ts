@@ -32,7 +32,7 @@ export class Force extends PIXI.utils.EventEmitter {
     public static easeLinear = (p: number) => p;
     public static decelerateLinear = (p: number) => 1 - p;
     // tslint:disable-next-line
-    public static gravity = new Force(Direction.DOWN, 5, 0, Force.constant);
+    public static gravity = new Force(Direction.DOWN, 6.2, 0, Force.constant);
 
 
     constructor(dir: Direction | Vector, force: number, durationMS: number,
