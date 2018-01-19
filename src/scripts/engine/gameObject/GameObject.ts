@@ -16,4 +16,14 @@ export abstract class GameObject extends EventEmitter {
         super();
     }
     public abstract update(delta: number): void;
+
+    public destroy() {
+        if (this.visualComponent) {
+            this.visualComponent.destroy();
+        }
+        if (this.collisionComponent) {
+            this.collisionComponent.destroy();
+        }
+
+    }
 }

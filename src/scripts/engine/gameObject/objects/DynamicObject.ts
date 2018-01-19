@@ -31,7 +31,8 @@ export class DynamicObject extends GameObject {
         }
     }
     public destroy(): void {
-        return;
+        GameManager.instance.removeUpdateableObject(this);
+        super.destroy();
     }
 
     private initializeCollision(collision: CollisionDefiner, containerBoundingRect: () => Rectangle) {
