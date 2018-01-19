@@ -37,8 +37,7 @@ html { height: 100%; }
   z-index: 10;
   animation: fade-in-out 1.5s 9999;
 }
-@keyframes fade-in-out {
-  from {opacity: 1;}
+@keyframes fade-in-out  {
+  0, 35%, 65%, 100% {opacity: 1;}
   50% {opacity: 0;}
-  to {opacity: 1;}
 }
