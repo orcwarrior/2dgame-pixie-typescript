@@ -18,6 +18,7 @@ Game Features:
 # TODO / NOTES:
 - Plugin do dzwieku, kilka dzwieków, SoundManager?
 - Poprawki kwestii wizualnych.
+- Wiecej źródeł wyrzucania jedzenia, dodatkowe oznaczenie graficzne przed wyrzuceniem jedzenia (sprite postaci pojawiajacy sie w oknie itp.).
 - Przejrzeć ponownie kod pod kątek refaktoryzacji.
 - It wasn't good idea to use classes like PIXI.Point without wrapping them, etc. It's simply makes my code tighter coupled with PIXI.js engine. (DONE)
 - Skalowanie szybkosci poruszania sie obiektów wzgledem wielkosci okna gry.
