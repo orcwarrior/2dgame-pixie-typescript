@@ -39,8 +39,8 @@ export class PlayerAnimsComponent extends AnimsComponent {
     private setupInputHandling(input: InputComponent): void {
         // DK: Force need to gain momentum too, so delaying setting of the ani
         // will fix issue where character could stay in idle ani.
-        input.on('moveright', () => this.setAni(AniType.run_right, 100));
-        input.on('moveleft', () => this.setAni(AniType.run_left, 100));
+        input.on('moveright', () => this.setAni(AniType.run_right, 160));
+        input.on('moveleft', () => this.setAni(AniType.run_left, 160));
         input.on('moverightstop', () => this.setAni(AniType.slide_right));
         input.on('moveleftstop', () => this.setAni(AniType.slide_left));
     }
