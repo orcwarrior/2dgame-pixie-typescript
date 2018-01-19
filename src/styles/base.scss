@@ -26,7 +26,7 @@ html { height: 100%; }
   /* TODO: CSS Grid plz */
   position: relative;
   font-family: 'VT323', monospace;
-  font-size: 25pt;
+  font-size: 20pt;
   text-align: center;
   top: 25%; left: 50%;
   margin-left: -200px;
@@ -36,6 +36,13 @@ html { height: 100%; }
   text-shadow: #111 3px 2px;
   z-index: 10;
   animation: fade-in-out 1.5s 9999;
+  & > h1 {
+    font-size: 60pt;
+    margin: 0;
+  }
+  & > h2 {
+    font-size: 50pt;
+    margin: 0; }
 }
 @keyframes fade-in-out  {
   0, 35%, 65%, 100% {opacity: 1;}
