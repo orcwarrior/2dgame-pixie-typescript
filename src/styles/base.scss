@@ -3,9 +3,41 @@ body {
   margin: 0;
   overflow: hidden;
   background: #111;
+  height: 100%;
 }
+html { height: 100%; }
 #game-wrapper {
   position: absolute;
   top: 0; bottom: 0; width: 100%;
   background-color: #111;
+}
+#game-stats {
+  position: absolute;
+  font-family: 'VT323', monospace;
+  font-size: 20pt;
+  top: 0; right: 0;
+  width: 240px;
+  padding: 20px;
+  color: #eee;
+  text-shadow: #111 3px 2px;
+  z-index: 10;
+}
+#game-dialog {
+  /* TODO: CSS Grid plz */
+  position: relative;
+  font-family: 'VT323', monospace;
+  font-size: 25pt;
+  top: 50%; left: 50%;
+  margin-left: -200px;
+  width: 400px; height: 100%;
+  padding: 20px;
+  color: #eee;
+  text-shadow: #111 3px 2px;
+  z-index: 10;
+  animation: fade-in-out 1.5s 9999;
+}
+@keyframes fade-in-out {
+  from {opacity: 1;}
+  50% {opacity: 0;}
+  to {opacity: 1;}
 }
