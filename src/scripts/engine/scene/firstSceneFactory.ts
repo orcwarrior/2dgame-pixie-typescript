@@ -8,6 +8,7 @@ import BaseTexture = PIXI.BaseTexture;
 let bgRes = require('file-loader!res/sprites/bg.png');
 let goombaRes = require('file-loader!res/sprites/goomba.png');
 let barrierRes = require('file-loader!res/sprites/derbis/barrier.png');
+let lamplightRes = require('file-loader!res/sprites/fx/lamplight.png');
 
 
 export function firstSceneFactory(): Scene {
@@ -45,12 +46,26 @@ export function firstSceneFactory(): Scene {
             let barrierSprite = PIXI.Sprite.from(baseTex);
             barrierSprite.width *= sX(1);
             barrierSprite.height *= sY(1);
-            let barrierVis = new GenericVisualComponent(barrierSprite, {x: x, y: sY(224)});
+            let barrierVis = new GenericVisualComponent(barrierSprite, {x: x, y: sY(228)});
             let barrier = new StaticObject(barrierVis, false);
             scene.addForeground(barrierVis);
         });
+    });
 
-    })
+    const LLOffset: number = 34; // Lamp light emiting center offset
+    [sX(24 - LLOffset), sX(82 - LLOffset), sX(137 - LLOffset), sX(250 - LLOffset),
+     sX(307 - LLOffset), sX(364 - LLOffset), sX(423 - LLOffset), sX(479 - LLOffset)].forEach((x) => {
+        const lampLText = PIXI.Texture.fromImage(lamplightRes, undefined, PIXI.SCALE_MODES.LINEAR);
+        lampLText.baseTexture.once('loaded', (baseTex: BaseTexture) => {
+            let lampLSprite = PIXI.Sprite.from(baseTex);
+            lampLSprite.blendMode = PIXI.BLEND_MODES.ADD;
+            lampLSprite.width *= sX(1);
+            lampLSprite.height *= sY(1);
+            let lampLVis = new GenericVisualComponent(lampLSprite, {x: x, y: sY(171)});
+            let lampLight = new StaticObject(lampLVis, false);
+            scene.addForeground(lampLVis);
+        });
+    });
 
 
     return scene;
