@@ -6,11 +6,11 @@ export class CollisionReport {
     public otherColl: CollisionComponent;
     public result: CollisionResults;
     public edges: EdgeRectangles;
-    constructor(otherColl: CollisionComponent, result: CollisionResults, edges: EdgeRectangles) {
 
-        this.otherColl = Object.assign({}, otherColl);
-        this.result = Object.assign({}, result);
-        this.edges = Object.assign({}, edges);
+    constructor(otherColl: CollisionComponent, result: CollisionResults, edges: EdgeRectangles) {
+        this.otherColl = otherColl;
+        this.result = result;
+        this.edges = edges;
 
     }
 }
