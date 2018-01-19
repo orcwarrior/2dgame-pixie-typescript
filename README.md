@@ -1,6 +1,6 @@
 # HUNGRY-HOMELES-VIKING
 ### (2dgame-pixie-typescript)
-![viking-game](https://i.imgur.com/s897CFN.png)
+![viking-game](https://i.imgur.com/yamjjWr.png)
 
 # FEATURES
 - Całośc kodu jest na tyle elastyczna (albo byłaby gdyby wprowadzić jeszcze kilka poprawek), że pozwala na dość łatwą zmiane
@@ -18,6 +18,8 @@ Game Features:
 # TODO / NOTES:
 - Plugin do dzwieku, kilka dzwieków, SoundManager?
 - Poprawki kwestii wizualnych.
+- Wrapper Date (Timestamp) / Delay, tak aby nie czas płynał tylko gdy gra jest w stanie GameState.PLAY.
+- Anims/VisualComponent dodać kod pozwalający na łatwe skalowanie.
 - Wiecej źródeł wyrzucania jedzenia, dodatkowe oznaczenie graficzne przed wyrzuceniem jedzenia (sprite postaci pojawiajacy sie w oknie itp.).
 - Przejrzeć ponownie kod pod kątek refaktoryzacji.
 - It wasn't good idea to use classes like PIXI.Point without wrapping them, etc. It's simply makes my code tighter coupled with PIXI.js engine. (DONE)
