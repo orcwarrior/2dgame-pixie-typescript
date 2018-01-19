@@ -11,10 +11,10 @@ export class ForceMoveableComponent extends MoveableComponent {
         super(parentObject, velocity);
         this.forces = forceContainer || new ForcesContainer();
     }
-    public update(parentContainer: PIXI.Container, passedVelocity?: Vector): Vector {
+    public update(parent: PIXI.DisplayObject, passedVelocity?: Vector): Vector {
         this.velocity = passedVelocity || this.forces.update();
-        parentContainer.x += this.velocity.x;
-        parentContainer.y += this.velocity.y;
+        parent.x += this.velocity.x;
+        parent.y += this.velocity.y;
         return this.velocity;
     }
     public applyForce(id: string, force: Force, overwriteForce?: boolean) {
