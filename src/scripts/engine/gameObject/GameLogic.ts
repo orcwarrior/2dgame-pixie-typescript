@@ -50,7 +50,7 @@ export class GameLogic implements Updateable {
     }
 
     private getFoodDeliveryTime() {
-        let ms = 2000 + Math.random() * 4000;
+        let ms = 3000 + Math.random() * 4000;
         let scorePenality = Math.random() * (this.player.stats.score * 10);
         scorePenality = Math.min(scorePenality, ms / 2);
         let livesReward = (10 - this.player.stats.lives) * 10;
