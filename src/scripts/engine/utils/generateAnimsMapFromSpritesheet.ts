@@ -9,7 +9,7 @@ export default async function generateAnimsMapFromSpritesheet(spritesheetJson: a
 
         texturePath = './' + texturePath; //spritesheetJson.meta.image;
         console.log('JSON: ', spritesheetJson);
-        const texture = PIXI.Texture.from(texturePath);
+        const texture = PIXI.Texture.fromImage(texturePath, undefined, PIXI.SCALE_MODES.NEAREST);
         // TODO: Runaway from this callback hell
         // Texture not setup UVS, so here's workaround (
         texture.baseTexture.once('loaded', () => {
