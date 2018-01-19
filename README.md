@@ -18,6 +18,8 @@ Game Features:
 # TODO / NOTES:
 - Plugin do dzwieku, kilka dzwieków, SoundManager?
 - Poprawki kwestii wizualnych.
+- Zadecydować miedzy polami z getterami/setterami a getX().
+- Można spaść poza mape (OSTROŻNIE!).
 - Wrapper Date (Timestamp) / Delay, tak aby nie czas płynał tylko gdy gra jest w stanie GameState.PLAY.
 - Anims/VisualComponent dodać kod pozwalający na łatwe skalowanie.
 - Wiecej źródeł wyrzucania jedzenia, dodatkowe oznaczenie graficzne przed wyrzuceniem jedzenia (sprite postaci pojawiajacy sie w oknie itp.).
