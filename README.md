@@ -1,6 +1,7 @@
 # HUNGRY-HOMELES-VIKING
 ### (2dgame-pixie-typescript)
 ![viking-game](https://i.imgur.com/yamjjWr.png)
+[Demo](https://hungry-homeless-viking.herokuapp.com/)
 
 # FEATURES
 - Całośc kodu jest na tyle elastyczna (albo byłaby gdyby wprowadzić jeszcze kilka poprawek), że pozwala na dość łatwą zmiane
