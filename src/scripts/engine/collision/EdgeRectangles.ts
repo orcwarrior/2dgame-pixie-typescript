@@ -18,11 +18,11 @@ export class EdgeRectangles {
         if (side === Direction.LEFT || side === Direction.RIGHT) {
             skipPart = r.height * sizePart / 2;
             const xStart = (side === Direction.LEFT) ? r.left : r.right - thickness;
-            return new PIXI.Rectangle(xStart, r.top + skipPart, thickness, r.height - skipPart);
+            return new PIXI.Rectangle(xStart, r.top + skipPart, thickness, r.height - skipPart * 2);
         } else /* if (side === Direction.UP || side === Direction.DOWN) */ {
             skipPart = r.width * sizePart / 2;
             const yStart = (side === Direction.UP) ? r.top : r.bottom - thickness;
-            return new PIXI.Rectangle(r.left + skipPart, yStart, r.width - skipPart, thickness);
+            return new PIXI.Rectangle(r.left + skipPart, yStart, r.width - skipPart * 2, thickness);
         }
     }
 
