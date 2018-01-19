@@ -16,6 +16,7 @@ export class ActiveCollisionComponent extends CollisionComponent {
         super(parentObject, getCollisionRect, onCollide);
         GameManager.instance.addCollideable(this);
     }
+
     public update(otherColls: CollisionComponent[]): CollisionResults {
         let results = this.collisionResults = new CollisionResults();
         let cRect: PIXI.Rectangle = this.getCollisionRect();
@@ -25,19 +26,27 @@ export class ActiveCollisionComponent extends CollisionComponent {
             let otherBounds = coll.getCollisionRect();
             let intersection = IntersectRect(cRect, otherBounds);
             if (!rectangleIsEmpty(intersection)
-            && (this.isCollidedPartBigEnough(cRect, intersection)
-            ||  this.isCollidedPartBigEnough(otherBounds, intersection))  ) {
+                && (this.isCollidedPartBigEnough(cRect, intersection)
+                    || this.isCollidedPartBigEnough(otherBounds, intersection))) {
                 let collResult = cRectEdges.testIntersection(intersection);
                 let collReport = new CollisionReport(coll, collResult, cRectEdges);
 
                 this.emit('collision', collReport);
-                this.onCollide(coll.getParent(), collReport);
+                this.getParent().emit('collision', collReport);
+
+                if (this.onCollide) {
+                    this.onCollide(coll.getParent(), collReport);
+                }
                 results.join(collResult);
             }
         });
         return results;
     }
-    public getCollisionResults() { return this.collisionResults; }
+
+    public getCollisionResults() {
+        return this.collisionResults;
+    }
+
     private isCollidedPartBigEnough(selfRect: PIXI.Rectangle, intersect: PIXI.Rectangle) {
         return (intersect.width * intersect.height) / (selfRect.width * selfRect.height) >= ActiveCollisionComponent.minimalCollision;
     }
