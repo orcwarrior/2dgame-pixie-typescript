@@ -29,6 +29,16 @@ export function getFoodOriginLocations(): FoodOrigin {
         {x: sX(136), y: sY(44), dir: Direction.RIGHT},
         {x: sX(123), y: sY(117), dir: Direction.RIGHT},
         {x: sX(392), y: sY(139), dir: Direction.LEFT},
+
+        {x: sX(454), y: sY(108), dir: Direction.LEFT},
+        {x: sX(392), y: sY(208), dir: Direction.LEFT},
+        {x: sX(422), y: sY(140), dir: Direction.LEFT},
+
+        {x: sX(109), y: sY(93), dir: Direction.RIGHT},
+        {x: sX(110), y: sY(166), dir: Direction.RIGHT},
+        {x: sX(95), y: sY(211), dir: Direction.RIGHT},
+
+
     ];
     return _.sample(foodOrginLocations) || foodOrginLocations[0];
 }
@@ -83,7 +93,7 @@ function generateFoodForces(foodPos: Vector, fO: FoodOrigin) {
     const [sX, sY] = orgCoordToScaled();
     const foodLowOriginHandicap = (fO.y - sY(44)) / 50;
     const yFormula = Math.random() * 4 + 6 + foodLowOriginHandicap;
-    const xFormula = 4 + Math.random() * 6 - foodLowOriginHandicap / 2;
+    const xFormula = 4 + Math.random() * 5 - (foodLowOriginHandicap / 2);
 
     let foodForces = new ForcesContainer();
     let throwForces = [new Force(Direction.UP, yFormula, 1800, Force.decelerateLinear)];
