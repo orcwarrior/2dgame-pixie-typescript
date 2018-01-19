@@ -6,6 +6,12 @@ import {foodFactory, foodFactoryResult, getFoodOriginLocations} from '../factori
 import {delayedPromise} from '../utils/delayedPromise';
 import {CollisionReport} from '../collision/CollisionReport';
 
+const sfx = {
+    crash: require('file-loader!res/sfx/crash.mp3'),
+    fall: require('file-loader!res/sfx/fall.mp3'),
+    pickup: require('file-loader!res/sfx/pickup.mp3'),
+};
+
 export class GameLogic implements Updateable {
     private player: Player;
     private foodDelivery: boolean;
@@ -33,6 +39,7 @@ export class GameLogic implements Updateable {
         }
         let foodOrigin = getFoodOriginLocations();
         let food = this.foodFactory(foodOrigin);
+        GameManager.instance.getSoundManager().play(sfx.fall);
         this.scene.addObject(food.vis);
         food.gameObj.on('collision', this.foodCollision.bind(this));
         this.foodDelivery = false;
@@ -43,9 +50,11 @@ export class GameLogic implements Updateable {
         if (Player.isPlayer(other)) {
             this.player.stats.increaseScore();
             this.player.stats.increaseSpeed();
+            GameManager.instance.getSoundManager().play(sfx.pickup);
         } else {
             this.player.stats.decreaseLives();
             this.player.stats.decreaseSpeed();
+            GameManager.instance.getSoundManager().play(sfx.crash);
         }
     }
 
