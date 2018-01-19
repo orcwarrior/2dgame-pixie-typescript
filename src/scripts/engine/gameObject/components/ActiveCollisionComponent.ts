@@ -1,17 +1,18 @@
-import {CollisionComponent} from './abstract/CollisionComponent';
-import {GameManager} from '../../GameManager';
+import {CollisionComponent, onCollideFunction} from './abstract/CollisionComponent';
 import {GameObject} from '../GameObject';
 import {IntersectRect, rectangleIsEmpty} from '../../utils/utils';
 import {CollisionResults} from '../../collision/CollisionResults';
 import {EdgeRectangles} from '../../collision/EdgeRectangles';
 import {CollisionReport} from '../../collision/CollisionReport';
+import {GameManager} from '../../GameManager';
 
 export class ActiveCollisionComponent extends CollisionComponent {
     protected static edgeThickness = 1;
-    protected static minimalCollision: number = 0.05;
+    protected static minimalCollision: number = 0.1;
     protected collisionResults: CollisionResults;
 
-    constructor(parentObject: GameObject, getCollisionRect: () => PIXI.Rectangle, onCollide?: (g: GameObject) => void) {
+    constructor(parentObject: GameObject, getCollisionRect: () => PIXI.Rectangle,
+                onCollide?: onCollideFunction) {
         super(parentObject, getCollisionRect, onCollide);
         GameManager.instance.addCollideable(this);
     }
@@ -26,12 +27,11 @@ export class ActiveCollisionComponent extends CollisionComponent {
             if (!rectangleIsEmpty(intersection)
             && (this.isCollidedPartBigEnough(cRect, intersection)
             ||  this.isCollidedPartBigEnough(otherBounds, intersection))  ) {
-                // TODO: Create some collision-pass-through field
-                // and ignore then results.join(collResults)
                 let collResult = cRectEdges.testIntersection(intersection);
                 let collReport = new CollisionReport(coll, collResult, cRectEdges);
-                // console.log('Collision found:', collResult);
+
                 this.emit('collision', collReport);
+                this.onCollide(coll.getParent(), collReport);
                 results.join(collResult);
             }
         });
