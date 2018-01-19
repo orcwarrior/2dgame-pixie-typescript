@@ -22,10 +22,10 @@ export class Player extends GameObject {
         return obj.constructor && obj.constructor.name === 'Player';
     };
 
-    constructor() {
+    constructor(playerPos: Vector = new Vector(500, 400)) {
         super();
         let container = this.animsContainer = new PIXI.Container();
-        this.visualComponent = new GenericVisualComponent(container, {x: 600, y: 500});
+        this.visualComponent = new GenericVisualComponent(container, playerPos);
         this.collisionComponent = new ActiveCollisionComponent(this, container.getBounds.bind(container));
         this.forcesContainer = new ForcesContainer();
         this.forcesContainer.applyForce('gravity', Player.majesticGravity );
