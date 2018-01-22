@@ -32,7 +32,7 @@ export class Force extends PIXI.utils.EventEmitter {
     public static easeLinear = (p: number) => p;
     public static decelerateLinear = (p: number) => 1 - p;
     // tslint:disable-next-line
-    public static gravity = new Force(Direction.DOWN, 6.2, 0, Force.constant);
+    public static gravity = new Force(Direction.DOWN, 2.05, 0, Force.constant);
 
 
     constructor(dir: Direction | Vector, force: number, durationMS: number,
@@ -48,11 +48,12 @@ export class Force extends PIXI.utils.EventEmitter {
     }
 
     public update(): Vector {
-        let progress = this.getForceProgress();
-        let actForce = this.force * this.easeFunction(progress);
-        let forceVector = this.directionVector.scalarMul(actForce);
-        if (this.forceFinished(progress, actForce)) { this.emit('end', progress, forceVector); }
-        return forceVector;
+        const progress = this.getForceProgress();
+        const actForce = this.force * this.easeFunction(progress);
+        const forceVector = this.directionVector.scalarMul(actForce);
+        const screenScaledVector = forceVector.remapForScreen();
+        if (this.forceFinished(progress, actForce)) { this.emit('end', progress, screenScaledVector, forceVector); }
+        return screenScaledVector;
     }
     private forceFinished(progress: number, force: number) {
         return (progress >= 1 && force === 0);
@@ -65,7 +66,7 @@ export class Force extends PIXI.utils.EventEmitter {
             return <Vector>dir;
         }
     }
-    private getForceProgress(): number {
+    public getForceProgress(): number {
         let curTimestamp: Date = new Date();
         let diff = (curTimestamp.getTime() - this._initTimestamp.getTime());
         return Math.min(1, diff / this.durationMS);
