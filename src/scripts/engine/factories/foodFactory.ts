@@ -91,9 +91,9 @@ function onFoodCollide(this: CollisionComponent, obj: GameObject, report: Collis
 
 function generateFoodForces(foodPos: Vector, fO: FoodOrigin) {
     const [sX, sY] = orgCoordToScaled();
-    const foodLowOriginHandicap = (fO.y - sY(44)) / 50;
-    const yFormula = Math.random() * 4 + 6 + foodLowOriginHandicap;
-    const xFormula = 4 + Math.random() * 5 - (foodLowOriginHandicap / 2);
+    const foodLowOriginHandicap = (fO.y - sY(24)) / 160;
+    const yFormula = Math.random() * 1.33 + 2 + foodLowOriginHandicap;
+    const xFormula = 1.4 + Math.random() * 2.3 - (foodLowOriginHandicap / 2);
 
     let foodForces = new ForcesContainer();
     let throwForces = [new Force(Direction.UP, yFormula, 1800, Force.decelerateLinear)];
