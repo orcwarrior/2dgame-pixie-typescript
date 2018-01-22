@@ -1,7 +1,7 @@
 import {Player} from './player/Player';
 import {Updateable} from '../interfaces/Updateable';
 import {Scene} from '../scene/Scene';
-import {GameManager} from '../GameManager';
+import {GameManager, GameState} from '../GameManager';
 import {foodFactory, foodFactoryResult, getFoodOriginLocations} from '../factories/foodFactory';
 import {delayedPromise} from '../utils/delayedPromise';
 import {CollisionReport} from '../collision/CollisionReport';
@@ -34,12 +34,17 @@ export class GameLogic implements Updateable {
     }
 
     private async deliverFood(): Promise<void> {
+        if (GameManager.instance.getState() !== GameState.PLAY) {
+            // Re-scedule food delivery:
+            this.foodDelivery = false;
+            return;
+        }
         if (!this.foodFactory) {
             this.foodFactory = await foodFactory();
         }
         let foodOrigin = getFoodOriginLocations();
         let food = this.foodFactory(foodOrigin);
-        GameManager.instance.getSoundManager().play(sfx.fall, 0.5);
+        GameManager.instance.getSoundManager().play(sfx.fall, 0.25);
         this.scene.addObject(food.vis);
         food.gameObj.on('collision', this.foodCollision.bind(this));
         this.foodDelivery = false;
@@ -59,8 +64,8 @@ export class GameLogic implements Updateable {
     }
 
     private getFoodDeliveryTime() {
-        let ms = 3000 + Math.random() * 4000;
-        let scorePenality = Math.random() * (this.player.stats.score * 10);
+        let ms = 2600 + Math.random() * 4000;
+        let scorePenality = Math.random() * (this.player.stats.score * 9);
         scorePenality = Math.min(scorePenality, ms / 2);
         let livesReward = (10 - this.player.stats.lives) * 10;
         return ms - scorePenality + livesReward;
