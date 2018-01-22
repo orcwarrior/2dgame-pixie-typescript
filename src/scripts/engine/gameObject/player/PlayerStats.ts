@@ -2,9 +2,9 @@
 import {GameManager, GameState} from '../../GameManager';
 
 export class PlayerStats {
-    private static speed: number = 3.5;
-    private static minSpeed: number = 1.8;
-    private static maxSpeed: number = 5.5;
+    private static speed: number = 1.2;
+    private static minSpeed: number = 0.6;
+    private static maxSpeed: number = 2.6;
     private _score: number;
     private _speed: number;
     private _lives: number;
@@ -27,7 +27,7 @@ export class PlayerStats {
         this._score += 10;
     }
     public increaseSpeed(): void {
-        this._speed += 0.15;
+        this._speed += 0.05;
         this._speed = Math.min(this._speed, PlayerStats.maxSpeed);
     }
     public decreaseSpeed(): void {
