@@ -11,7 +11,7 @@ import {GenericMoveableComponent} from '../components/GenericMoveableComponent';
 import {PlayerStats} from './PlayerStats';
 
 export class Player extends GameObject {
-    private static majesticGravity: Force = new Force(Direction.DOWN, 3.5, 500, Force.easeLinear);
+    private static majesticGravity: Force = new Force(Direction.DOWN, 1.5, 500, Force.easeLinear);
 
     protected forcesContainer: ForcesContainer;
     protected animsContainer: PIXI.Container;
@@ -56,21 +56,20 @@ export class Player extends GameObject {
         const input = this.inputComponent;
         const fc = this.forcesContainer;
         input.on('moveleft', () =>
-            fc.applyForce('mLeft', new Force(Direction.LEFT, this.stats.speed, 250), true)
+            fc.applyForce('mLeft', new Force(Direction.LEFT, this.stats.speed, 350), true)
         );
         input.on('moveright', () =>
-            fc.applyForce('mRight', new Force(Direction.RIGHT, this.stats.speed, 250), true)
+            fc.applyForce('mRight', new Force(Direction.RIGHT, this.stats.speed, 350), true)
         );
         input.on('moveleftstop', () => this.setSlideAni(fc, 'mLeft'));
         input.on('moverightstop', () => this.setSlideAni(fc, 'mRight'));
     }
 
     private setSlideAni(forceCont: ForcesContainer, forceId: string) {
-        // DK: Get progress method would do the same without 'magic', make it public?
-        const curForceVel = forceCont.getForceVelocity(forceId);
-        const maxVel = curForceVel.getAbsDominantValue();
-        const slideDuration = 500 * (maxVel / this.stats.speed);
-        forceCont.applyForce(forceId, new Force(curForceVel, 1, slideDuration, Force.decelerateLinear), true);
+        const curForceProgress = forceCont.getForceProgress(forceId);
+        const speed = forceCont.getForceVelocity(forceId).signVector().scalarMul(curForceProgress * this.stats.speed);
+        const slideDuration = 500 * curForceProgress;
+        forceCont.applyForce(forceId, new Force(speed, 1, slideDuration, Force.decelerateLinear), true);
     }
 
 }
