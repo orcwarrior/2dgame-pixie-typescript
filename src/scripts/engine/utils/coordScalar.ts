@@ -6,7 +6,7 @@ import {GameManager} from '../GameManager';
 
 const orginalBGSize = new PIXI.Rectangle(0, 0, 480, 270);
 
-type orgCoordUtils = [(x: number) => number, (y: number) => number];
+type orgCoordUtils = [(x: number) => number, (y: number) => number, (v: Vector) => Vector];
 export function orgCoordToScaled(): orgCoordUtils {
     let gameSize = GameManager.instance && GameManager.instance.gameSize;
     let scalar = new Vector(gameSize.width / orginalBGSize.width,
@@ -15,5 +15,7 @@ export function orgCoordToScaled(): orgCoordUtils {
         return n * scalar.x;
     }, function Y(n: number) {
         return n * scalar.y;
+    }, function Vec(v: Vector) {
+        return v.mul(scalar);
     }];
 }
