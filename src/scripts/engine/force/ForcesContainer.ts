@@ -21,6 +21,9 @@ export class ForcesContainer implements Updateable {
     public getForceVelocity(forceId: string): Vector {
         return (this.forcesContainer[forceId] && this.forcesContainer[forceId].update());
     }
+    public getForceProgress(forceId: string): number {
+        return (this.forcesContainer[forceId] && this.forcesContainer[forceId].getForceProgress());
+    }
 
     public update(): Vector {
         let fV = this.forcesVector = Object.keys(this.forcesContainer)
