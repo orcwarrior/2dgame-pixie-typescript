@@ -1,3 +1,5 @@
+import {orgCoordToScaled} from './coordScalar';
+
 export class Vector {
     public x: number;
     public y: number;
@@ -32,5 +34,9 @@ export class Vector {
 
     public asPixiPoint(): PIXI.Point {
         return new PIXI.Point(this.x, this.y);
+    }
+    public remapForScreen(): Vector {
+        const [_, __, vec] = orgCoordToScaled();
+        return vec(this);
     }
 }
